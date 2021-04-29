@@ -2,4 +2,4 @@
 
 A simutation of the motion for a single pendulum under gravitational field
 
-![Single Pendulum](../../assets/01-single-pendulum.gif)
+![Single Pendulum](./assets/01-single-pendulum.gif)
