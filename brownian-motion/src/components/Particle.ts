@@ -81,7 +81,11 @@ class Particle extends Graphics {
   }
 }
 
-export const collisionHandling2Particles = (p1: Particle, p2: Particle, dTime: number) => {
+export const collide2Particles = (
+  p1: Particle,
+  p2: Particle,
+  dTime: number,
+) => {
   if (p1.index >= p2.index) return;
   let p1p2 = new Vector2D(p1.x - p2.x, p1.y - p2.y);
   const pDiffSquare = p1p2.dotProduct(p1p2);
@@ -97,7 +101,7 @@ export const collisionHandling2Particles = (p1: Particle, p2: Particle, dTime: n
     let dT1 = 0;
 
     /**
-     * Solve this equation
+     * Solve this equation for t
      * t^2 * |v1 - v2| ^ 2 - 2t <p1 - p2, v1 - v2> + |p1 - p2|^2 - (r1 + r2)^2 = 0
      */
     const vDiffSquare = v1v2.dotProduct(v1v2);

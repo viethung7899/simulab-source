@@ -1,9 +1,9 @@
 import { Container } from '@pixi/display';
-import Particle, { collisionHandling2Particles } from './Particle';
+import Particle, { collide2Particles } from './Particle';
 import QuadTree from './QuadTree';
 
 const palette = [0xE79226, 0xEE9965, 0xF6D99A, 0xA6AF89, 0x755E67];
-const smallRadius = 5;
+const smallRadius = 4;
 
 const randomX = (boundary: number = 0) => {
   return Math.random() * (window.innerWidth - 2 * boundary) + boundary;
@@ -16,6 +16,7 @@ const randomY = (boundary: number = 0) => {
 class BrownianSystem {
   particles: Particle[] = [];
   bigParticle: Particle;
+  tracing: Particle[] = [];
 
   constructor() {
     this.bigParticle = new Particle(
@@ -53,6 +54,23 @@ class BrownianSystem {
     stage.addChild(...this.particles, this.bigParticle);
   }
 
+  trace(stage: Container) {
+    if (this.tracing.length >= 1000) {
+      const first = this.tracing.shift();
+      stage.removeChild(first);
+    }
+
+    this.tracing.forEach(point => {
+      point.alpha -= 0.001;
+    });
+
+    const last = new Particle(this.bigParticle.x, this.bigParticle.y, 1);
+    last.setColor(0xFF0000);
+    last.draw();
+    this.tracing.push(last);
+    stage.addChild(last);
+  }
+
   move(dTime: number) {
     this.bigParticle.move(dTime);
     this.particles.forEach((p) => p.move(dTime));
@@ -61,7 +79,7 @@ class BrownianSystem {
   collisionHandling(dTime: number) {
     // Checking collision aganist big particle
     this.particles.forEach((p) => {
-      collisionHandling2Particles(this.bigParticle, p, dTime);
+      collide2Particles(this.bigParticle, p, dTime);
     });
 
     // Check collision between smaller particles
@@ -73,7 +91,7 @@ class BrownianSystem {
     for (const p1 of particles) {
       const possibleParticles = qt.query(p1);
       for (const p2 of possibleParticles) {
-        collisionHandling2Particles(p1, p2, dTime);
+        collide2Particles(p1, p2, dTime);
       }
     }
   }

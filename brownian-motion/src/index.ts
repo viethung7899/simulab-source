@@ -1,7 +1,5 @@
 import { Application, Ticker } from 'pixi.js';
 import BrownianSystem from './components/BrownianSystem';
-import { collisionHandling2Particles } from './components/Particle';
-import QuadTree from './components/QuadTree';
 import './style.scss';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#sketch');
@@ -16,7 +14,7 @@ const app = new Application({
 });
 
 const system = new BrownianSystem();
-system.generateRandomParticles(250);
+system.generateRandomParticles(512);
 system.draw();
 system.showOn(app.stage);
 
@@ -33,6 +31,7 @@ const ticker = new Ticker();
 const animate = () => {
   system.collisionHandling(dTime);
   system.move(dTime);
+  system.trace(app.stage);
 };
 
 ticker.add(animate);
