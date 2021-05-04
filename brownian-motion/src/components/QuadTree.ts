@@ -3,7 +3,7 @@ import { Graphics } from '@pixi/graphics';
 import Box from '../utils/Box';
 import Particle from './Particle';
 
-const MAX_DEPTH = 5;
+const MAX_DEPTH = 6;
 const MAX_CAPACITY = 4;
 
 const QT = {

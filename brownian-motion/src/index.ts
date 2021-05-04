@@ -5,7 +5,7 @@ import QuadTree from './components/QuadTree';
 import './style.scss';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#sketch');
-const dTime = 1/60;
+const dTime = 0.01;
 
 const app = new Application({
   view: canvas,
@@ -16,7 +16,7 @@ const app = new Application({
 });
 
 const system = new BrownianSystem();
-system.generateRandomParticles(100);
+system.generateRandomParticles(250);
 system.draw();
 system.showOn(app.stage);
 
@@ -26,27 +26,12 @@ window.addEventListener('resize', () => {
   app.renderer.resize(innerWidth, innerHeight);
 });
 
-// Collision detection
-const collisionHandling = () => {
-  const qt = new QuadTree(0, 0, window.innerWidth, window.innerHeight);
-  const particles = system.particles;
-  particles.forEach((p) => {
-    qt.insert(p);
-  });
-  for (const p1 of particles) {
-    const possibleParticles = qt.query(p1);
-    for (const p2 of possibleParticles) {
-      collisionHandling2Particles(p1, p2);
-    }
-  }
-};
-
 // collisionHandling();
 
 // Animation
 const ticker = new Ticker();
 const animate = () => {
-  collisionHandling();
+  system.collisionHandling(dTime);
   system.move(dTime);
 };
 
