@@ -2,8 +2,7 @@ import { Container } from '@pixi/display';
 import Particle from './Particle';
 
 const palette = [0x23049d, 0xaa2ee6, 0xff79cd, 0xffdf6b];
-const dTime = 1 / 30;
-const smallRadius = 20;
+const smallRadius = 5;
 
 const randomX = (boundary: number = 0) => {
   return Math.random() * (window.innerWidth - 2 * boundary) + boundary;
@@ -39,7 +38,7 @@ class BrownianSystem {
     stage.addChild(...this.particles);
   }
 
-  move() {
+  move(dTime: number) {
     this.particles.forEach((p) => p.move(dTime));
   }
 }

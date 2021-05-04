@@ -1,2 +1,3 @@
-# webpack-starter
-A base project using Webpack bundler
+# Brownian Motion
+
+ A simulation of Brownian motion
