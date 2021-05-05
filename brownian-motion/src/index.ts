@@ -1,6 +1,6 @@
 import { icon } from '@fortawesome/fontawesome-svg-core';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faStop, faRedo } from '@fortawesome/free-solid-svg-icons';
 import { Application, Ticker } from 'pixi.js';
 import BrownianSystem from './components/BrownianSystem';
 import './style.scss';
@@ -17,9 +17,10 @@ const app = new Application({
 });
 
 const system = new BrownianSystem();
+system.setStage(app.stage);
 system.generateRandomParticles(400);
 system.draw();
-system.showOn(app.stage);
+system.show();
 
 // Resize listener
 window.addEventListener('resize', () => {
@@ -34,7 +35,7 @@ const ticker = new Ticker();
 const animate = () => {
   system.collisionHandling(dTime);
   system.move(dTime);
-  system.trace(app.stage);
+  system.trace();
 };
 
 ticker.add(animate);
@@ -46,6 +47,7 @@ ticker.add(animate);
 const playButton = document.querySelector('#play');
 const playIcon = icon(faPlay).node[0];
 const stopIcon = icon(faStop).node[0];
+const redoIcon = icon(faRedo).node[0];
 const githubIcon = icon(faGithub).node[0];
 
 playButton.className = 'play-button';
@@ -67,3 +69,9 @@ playButton.addEventListener('click', () => {
 });
 
 document.querySelector('#github').appendChild(githubIcon);
+
+const resetButton = document.querySelector('#reset');
+resetButton.appendChild(redoIcon);
+resetButton.addEventListener('click', () => {
+  system.reset();
+})

@@ -21,6 +21,10 @@ nav {
     @apply bg-red-200 text-red-600;
   }
 
+  .reset-button:hover {
+    @apply bg-yellow-200 text-yellow-600;
+  }
+
   .regular-button:hover {
     @apply bg-gray-200 text-black;
   }

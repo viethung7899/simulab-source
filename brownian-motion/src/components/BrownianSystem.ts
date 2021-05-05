@@ -2,7 +2,7 @@ import { Container } from '@pixi/display';
 import Particle, { collide2Particles } from './Particle';
 import QuadTree from './QuadTree';
 
-const palette = [0xE79226, 0xEE9965, 0xF6D99A, 0xA6AF89, 0x755E67];
+const palette = [0xe79226, 0xee9965, 0xf6d99a, 0xa6af89, 0x755e67];
 const smallRadius = 4;
 
 const randomX = (boundary: number = 0) => {
@@ -17,6 +17,7 @@ class BrownianSystem {
   particles: Particle[] = [];
   bigParticle: Particle;
   tracing: Particle[] = [];
+  stage: Container;
 
   constructor() {
     this.bigParticle = new Particle(
@@ -26,21 +27,27 @@ class BrownianSystem {
     );
   }
 
+  setStage(stage: Container) {
+    this.stage = stage;
+  }
+
   generateRandomParticles(quantity: number) {
     for (let i = 0; i < quantity; i++) {
-      const particle = new Particle(
-        randomX(smallRadius),
-        randomY(smallRadius),
-        smallRadius,
-        true,
-      );
-      while (particle.collide(this.bigParticle)) {
-        particle.x = randomX(smallRadius);
-        particle.y = randomY(smallRadius);
-      }
+      const particle = new Particle(0, 0, smallRadius, true);
       particle.setColor(palette[i % palette.length]);
       this.particles.push(particle);
     }
+
+    this._resetRandomParticles();
+  }
+
+  _resetRandomParticles() {
+    this.particles.forEach((particle) => {
+      do {
+        particle.x = randomX(smallRadius);
+        particle.y = randomY(smallRadius);
+      } while (particle.collide(this.bigParticle));
+    });
   }
 
   draw() {
@@ -50,25 +57,25 @@ class BrownianSystem {
     });
   }
 
-  showOn(stage: Container) {
-    stage.addChild(...this.particles, this.bigParticle);
+  show() {
+    this.stage.addChild(...this.particles, this.bigParticle);
   }
 
-  trace(stage: Container) {
+  trace() {
     if (this.tracing.length >= 1024) {
       const first = this.tracing.shift();
-      stage.removeChild(first);
+      this.stage.removeChild(first);
     }
 
-    this.tracing.forEach(point => {
+    this.tracing.forEach((point) => {
       point.alpha -= 0.001;
     });
 
     const last = new Particle(this.bigParticle.x, this.bigParticle.y, 1);
-    last.setColor(0xFF0000);
+    last.setColor(0xff0000);
     last.draw();
     this.tracing.push(last);
-    stage.addChild(last);
+    this.stage.addChild(last);
   }
 
   move(dTime: number) {
@@ -94,6 +101,14 @@ class BrownianSystem {
         collide2Particles(p1, p2, dTime);
       }
     }
+  }
+
+  reset() {
+    this.bigParticle.x = window.innerWidth / 2;
+    this.bigParticle.y = window.innerHeight / 2;
+    this.stage.removeChild(...this.tracing);
+    this.tracing.splice(0);
+    this._resetRandomParticles();
   }
 }
 
