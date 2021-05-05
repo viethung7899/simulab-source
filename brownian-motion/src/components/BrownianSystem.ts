@@ -55,7 +55,7 @@ class BrownianSystem {
   }
 
   trace(stage: Container) {
-    if (this.tracing.length >= 1000) {
+    if (this.tracing.length >= 1024) {
       const first = this.tracing.shift();
       stage.removeChild(first);
     }
