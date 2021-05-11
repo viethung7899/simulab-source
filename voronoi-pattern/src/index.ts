@@ -1,9 +1,10 @@
 import { Application } from 'pixi.js';
-import { Seed } from './components/Seed';
+import { voronoiFilter } from './components/Shader';
+import { VoronoiGrid } from './components/VoronoiGrid';
 import './style.scss';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#sketch');
-const dTime = 0.01;
+const delta = 0.005;
 
 const app = new Application({
   view: canvas,
@@ -11,13 +12,29 @@ const app = new Application({
   height: window.innerHeight,
   resolution: window.devicePixelRatio,
   autoDensity: true,
+  backgroundAlpha: 1.0,
 });
+
+const system = new VoronoiGrid(app.screen, 5, 5);
+app.stage.addChild(system.container);
 
 // Resize listener
 window.addEventListener('resize', () => {
+  // Resize the canvas
   const { innerWidth, innerHeight } = window;
   app.renderer.resize(innerWidth, innerHeight);
+
+  // Relocate the point
+  system.updatePosition();
 });
 
-const seed = new Seed();
-app.stage.addChild(seed);
+// Apply shader
+const voronoiShader = voronoiFilter(system);
+system.background.filters = [voronoiShader.filter];
+
+const animation = () => {
+  system.move(delta);
+  voronoiShader.updateUniform();
+};
+
+app.ticker.add(animation);

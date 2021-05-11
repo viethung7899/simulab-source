@@ -18,6 +18,12 @@ export default class Vector2D {
     return this;
   }
 
+  sub(p: Vector2D) {
+    this.x -= p.x;
+    this.y -= p.y;
+    return this;
+  }
+
   mult(scalar: number) {
     this.x *= scalar;
     this.y *= scalar;
@@ -41,5 +47,10 @@ export default class Vector2D {
     if (len !== 0) {
       this.mult(1 / len);
     }
+  }
+
+  setVector(x: number, y: number = x) {
+    this.x = x;
+    this.y = y;
   }
 }
