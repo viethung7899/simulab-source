@@ -27,40 +27,46 @@ const vertexShader = `
   {
       gl_Position = filterVertexPosition();
       vTextureCoord = filterTextureCoord();
-      uv = vTextureCoord * inputSize.xy / outputFrame.zw;
+      uv = vTextureCoord * inputSize.xy + outputFrame.xy;
   }
 `;
 
-const MAX_COUNT = 256;
+const MAX_COUNT = 128;
 
 const voronoiShader = `
   precision mediump float;
   
-  varying vec2 vTextureCoord;
   varying vec2 uv;
 
   const int MAX_COUNT = ${MAX_COUNT};
 
   uniform vec2 points[MAX_COUNT];
   uniform int size;
+  uniform vec2 dimension;
   
   void main() {
-    float m_dist = 2.;
-    for (int i = 0; i < MAX_COUNT; i++) {
+    if (size < 1) {
+      gl_FragColor = vec4(vec3(0.0), 1.0);
+      return;
+    }
+
+    float m_dist = distance(uv, points[0]);
+    for (int i = 1; i < MAX_COUNT; i++) {
       if (i >= size) break;
       float dist = distance(uv, points[i]);
       m_dist = min(m_dist, dist);
     }
-    gl_FragColor = vec4(vec3(sqrt(m_dist)), 0.0);
+    gl_FragColor = vec4(vec3(sqrt(m_dist / dimension[0])), 1.0);
   }
 `;
 
-const initArray = () => new Float32Array(MAX_COUNT * 2).fill(0);
+const initArray = (length: number) => new Float32Array(length).fill(0);
 
 export const voronoiFilter = (system: VoronoiGrid) => {
   const uniforms = {
-    points: initArray(),
+    points: initArray(MAX_COUNT * 2),
     size: 1,
+    dimension: initArray(2)
   };
 
   const updateUniform = () => {
@@ -70,12 +76,12 @@ export const voronoiFilter = (system: VoronoiGrid) => {
     uniforms.points.fill(0);
 
     system.seeds.forEach((seed, i) => {
-      const { rowIndex, colIndex } = seed;
-      const x = (colIndex + seed.normalizedPosition.x) / totalCol;
-      const y = (rowIndex + seed.normalizedPosition.y) / totalRow;
-      uniforms.points[2 * i] = x;
-      uniforms.points[2 * i + 1] = y;
+      uniforms.points[2 * i] = seed.x;
+      uniforms.points[2 * i + 1] = seed.y;
     });
+
+    uniforms.dimension[0] = system.background.filterArea.width;
+    uniforms.dimension[1] = system.background.filterArea.height;
   };
   updateUniform();
 

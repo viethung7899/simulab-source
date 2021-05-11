@@ -11,7 +11,7 @@ export class VoronoiGrid {
   totalRow = 3;
   totalCol = 2;
 
-  constructor(boundary: Rectangle, row: number = 3, col: number = 2) {
+  constructor(boundary: Rectangle, row = 3, col = 2) {
     this.container = new Container();
 
     this.totalRow = row;
@@ -25,10 +25,7 @@ export class VoronoiGrid {
     // Initialize the grid
     for (let i = 0; i < this.totalRow; i++) {
       for (let j = 0; j < this.totalCol; j++) {
-        const seed = new Seed(i, j);
-        seed.draw();
-        this.seeds.push(seed);
-        this.container.addChild(seed);
+        this._addSeed(i, j);
       }
     }
 
@@ -36,8 +33,8 @@ export class VoronoiGrid {
   }
 
   updatePosition() {
-    const width = window.innerWidth / this.totalCol;
-    const height = window.innerHeight / this.totalRow;
+    const width = this.background.filterArea.width / this.totalCol;
+    const height = this.background.filterArea.height / this.totalRow;
     this.seeds.forEach((seed) => {
       const { rowIndex, colIndex } = seed;
       const x = (colIndex + seed.normalizedPosition.x) * width;
@@ -51,7 +48,58 @@ export class VoronoiGrid {
     this.updatePosition();
   }
 
-  addRow() {}
+  addRow() {
+    for (let i = 0; i < this.totalCol; i++) {
+      this._addSeed(this.totalRow, i);
+    }
 
-  addCol() {}
+    this.totalRow++;
+    this.updatePosition();
+  }
+
+  addCol() {
+    for (let i = 0; i < this.totalRow; i++) {
+      this._addSeed(i, this.totalCol);
+    }
+
+    this.totalCol++;
+    this.updatePosition();
+  }
+
+  removeRow() {
+    this.totalRow--;
+    this.seeds.filter(seed => {
+      const condition = seed.rowIndex == this.totalRow;
+      if (condition) {
+        this.container.removeChild(seed);
+      }
+      return !condition;
+    })
+  }
+
+  removeCol() {
+    this.totalCol--;
+    this.seeds.filter(seed => {
+      const condition = seed.colIndex == this.totalCol;
+      if (condition) {
+        this.container.removeChild(seed);
+      }
+      return !condition;
+    })
+  }
+
+  _addSeed(row: number, col: number) {
+    const seed = new Seed(row, col);
+        seed.draw();
+        this.seeds.push(seed);
+        this.container.addChild(seed);
+  }
+
+  reset() {
+    this.seeds.forEach(seed => {
+      seed.normalizedPosition.setVector(0.5, 0.5);
+    });
+
+    this.updatePosition();
+  }
 }
