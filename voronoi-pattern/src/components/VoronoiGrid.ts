@@ -1,6 +1,7 @@
 import { Container } from '@pixi/display';
 import { Rectangle } from '@pixi/math';
 import { Sprite } from '@pixi/sprite';
+import Vector2D from '../utils/Vector';
 import { Seed } from './Seed';
 
 export class VoronoiGrid {
@@ -68,24 +69,26 @@ export class VoronoiGrid {
 
   removeRow() {
     this.totalRow--;
-    this.seeds.filter(seed => {
+    this.seeds = this.seeds.filter(seed => {
       const condition = seed.rowIndex == this.totalRow;
       if (condition) {
         this.container.removeChild(seed);
       }
       return !condition;
     })
+    this.updatePosition();
   }
 
   removeCol() {
     this.totalCol--;
-    this.seeds.filter(seed => {
+    this.seeds = this.seeds.filter(seed => {
       const condition = seed.colIndex == this.totalCol;
       if (condition) {
         this.container.removeChild(seed);
       }
       return !condition;
     })
+    this.updatePosition();
   }
 
   _addSeed(row: number, col: number) {
@@ -98,6 +101,7 @@ export class VoronoiGrid {
   reset() {
     this.seeds.forEach(seed => {
       seed.normalizedPosition.setVector(0.5, 0.5);
+      seed.velocity = Vector2D.random();
     });
 
     this.updatePosition();

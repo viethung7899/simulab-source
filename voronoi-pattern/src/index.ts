@@ -1,11 +1,20 @@
 import { Application, Ticker } from 'pixi.js';
 import { voronoiFilter } from './components/Shader';
 import { VoronoiGrid } from './components/VoronoiGrid';
-import {applyAllIcons, playButton, resetButton, toggleAnimation} from './controller'
+import {
+  adjustSeeds,
+  colController,
+  initController,
+  playButton,
+  resetButton,
+  rowController,
+  selection,
+  toggleAnimation,
+} from './controller';
 import './style.scss';
 
 // Apply all icon styles
-applyAllIcons();
+initController();
 
 const canvasContainer =
   document.querySelector<HTMLDivElement>('#canvas-container');
@@ -28,7 +37,7 @@ app.stage.addChild(system.container);
 
 // Apply shader
 const voronoiShader = voronoiFilter(system);
-system.background.filters = [voronoiShader.filter];
+system.background.filters = [voronoiShader.filters.gray];
 
 // Resize listener
 window.addEventListener('resize', () => {
@@ -41,8 +50,9 @@ window.addEventListener('resize', () => {
   voronoiShader.updateUniform();
 });
 
-
-let playing = false;
+/**
+ * Controllers
+ */
 const animation = () => {
   system.move(delta);
   voronoiShader.updateUniform();
@@ -54,9 +64,27 @@ ticker.add(animation);
 
 playButton.addEventListener('click', () => {
   toggleAnimation(ticker);
-})
+});
 
+// Trigger buttons event
 resetButton.addEventListener('click', () => {
   system.reset();
   voronoiShader.updateUniform();
+  voronoiShader.resetColor();
+});
+
+rowController.addEventListener('click', (e: MouseEvent) => {
+  const update = adjustSeeds(e, system, 'row');
+  if (update) voronoiShader.updateUniform();
+})
+
+colController.addEventListener('click', (e: MouseEvent) => {
+  const update = adjustSeeds(e, system, 'column');
+  if (update) voronoiShader.updateUniform();
+})
+
+// Trigger selection event
+selection.addEventListener('change', (e) => {
+  const value = (e.target as any).value;
+  system.background.filters = [voronoiShader.filters[value]];
 })

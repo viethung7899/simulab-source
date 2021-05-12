@@ -44,8 +44,12 @@ nav {
       flex-basis: 28px;
       height: 28px;
 
-      &:hover {
+      &:hover:enabled {
         @apply bg-gray-300;
+      }
+
+      &:disabled {
+        @apply text-gray-300;
       }
     }
   }
