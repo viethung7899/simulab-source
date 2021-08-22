@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+nav {
+  position: relative;
+
+  button, a {
+    @apply focus:outline-none rounded-md px-2 text-xl;
+  }
+
+  .menu {
+    position: absolute;
+    top: 100%;
+    right: 0.5rem;
+  }
+}
+
+.menu {
+  .label {
+    @apply font-semibold;
+  }
+}
