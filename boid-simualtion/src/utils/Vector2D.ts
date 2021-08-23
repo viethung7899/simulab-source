@@ -50,7 +50,10 @@ export class Vector2D {
   }
 
   angle() {
-    if (this.x === 0) return Math.PI / 2;
-    return Math.atan(this.y / this.x);
+    if (this.x === 0 && this.y > 0) return Math.PI / 2;
+    if (this.x === 0 && this.y < 0) return -Math.PI / 2;
+    let a = Math.atan(this.y / this.x);
+    if (this.x < 0) a += Math.PI;
+    return a;
   }
 }

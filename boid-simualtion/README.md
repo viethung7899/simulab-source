@@ -20,7 +20,12 @@ A simualtion for flocking behaviour in fihses, birds, etc
   - [x] View angle
   - [x] View radius
   - [x] Behaviour coefficients
+  - [ ] Play button
+  - [ ] Pause botton
+  - [ ] Reset button
 - [ ] Collision detection
   - [ ] Spatial hash grids
   - [ ] Optimization with double linked list
 - [ ] Animation
+  - [x] Animation on single boid
+  - [ ] Animation on multiple boids
