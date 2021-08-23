@@ -1,5 +1,6 @@
 import { Application, Container, Graphics, Sprite } from "pixi.js";
 import { Boid } from "./components/Boid";
+import { initController } from "./components/Controller";
 import "./style.scss"
 
 const canvasContainer =
@@ -20,7 +21,7 @@ const app = new Application({
 const b = new Boid(400, 400);
 b.addTo(app.stage);
 
-console.log(app.renderer.screen);
+initController();
 
 window.addEventListener('resize', () => {
   // Resize the canvas
