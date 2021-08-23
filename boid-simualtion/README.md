@@ -9,8 +9,8 @@ A simualtion for flocking behaviour in fihses, birds, etc
   - [x] Style the project
 - [ ] Build a boid
   - [x] Create graphic for boid
-  - [ ] Create boid behaviours
-    - [ ] Implement wandering behaviour
+  - [x] Create boid behaviours
+    - [x] Implement wandering behaviour
     - [x] Implement steering behaviour
 - [ ] Create group behaviours
   - [x] Cohesion

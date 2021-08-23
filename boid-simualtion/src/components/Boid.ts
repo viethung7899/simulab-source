@@ -7,6 +7,11 @@ const BORDER = 40;
 const _BOID_FORCE_ALIGNMENT = 10;
 const _BOID_FORCE_SEPARATION = 20;
 const _BOID_FORCE_COHESION = 10;
+const _BOID_FORCE_WANDER = 3;
+
+function random_range(a: number, b: number) {
+  return Math.random() * (b - a) + a;
+}
 
 export class Boid {
   private _position: Vector2D;
@@ -14,13 +19,16 @@ export class Boid {
   private _direction: Vector2D;
   private _shape: Graphics;
 
+  private _wanderAngle: number;
+
   private _maxSpeed: number;
   private _maxSteeringForce: number;
 
   constructor(x: number = 0, y: number = x) {
     this._position = new Vector2D(x, y);
 
-    // Random velocity and
+    // Random velocity
+    this._wanderAngle = 0;
 
     // Make the shape
     const shape = new Graphics();
@@ -37,10 +45,11 @@ export class Boid {
   _applySteering(locals: Boid[]) {
     const steeringForce = new Vector2D();
     steeringForce
+      .add(this._applyWandering())
       .add(this._applyAlignment(locals))
       .add(this._applyCohesion(locals))
-      .add(this._applySeparation(locals));
-    steeringForce.clamp(this._maxSteeringForce);
+      .add(this._applySeparation(locals))
+      .clamp(this._maxSteeringForce);
     this._velocity.add(steeringForce).clamp(this._maxSpeed);
 
     this._direction = this._velocity.clone().normalize();
@@ -75,8 +84,7 @@ export class Boid {
 
   // Move towards the average position of the locals
   _applyCohesion(locals: Boid[]) {
-    const force = new Vector2D();
-    if (locals.length === 0) return force;
+    if (locals.length === 0) return new Vector2D();
 
     const averagePostion = new Vector2D();
     for (let boid of locals) {
@@ -111,6 +119,21 @@ export class Boid {
           .multiply(_BOID_FORCE_SEPARATION / distanceToBoid),
       );
     }
+    return force;
+  }
+
+  _applyWandering() {
+    this._wanderAngle += 0.1 * random_range(-2 * Math.PI, 2 * Math.PI);
+    const wanderDirection = new Vector2D(
+      Math.cos(this._wanderAngle),
+      Math.sin(this._wanderAngle),
+    );
+    const force = this._direction
+      .clone()
+      .multiply(2)
+      .add(wanderDirection)
+      .normalize()
+      .multiply(_BOID_FORCE_WANDER);
     return force;
   }
 }
