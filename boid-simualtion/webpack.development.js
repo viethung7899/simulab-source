@@ -16,4 +16,5 @@ module.exports = merge(config, {
       },
     ]
   },
+  devtool: 'source-map',
 });

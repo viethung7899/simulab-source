@@ -1,3 +1,4 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
@@ -16,7 +17,7 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            name: '[name].[contenthash].[ext]',
+            name: '[name].[ext]',
             outputPaths: 'asset',
           },
         },
@@ -32,6 +33,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
+    new CopyWebpackPlugin({ patterns: [{ from: 'src/assets', to: 'assets'}] }),
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
