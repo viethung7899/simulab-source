@@ -8,15 +8,14 @@ A simualtion for flocking behaviour in fihses, birds, etc
   - [x] Create canvas
   - [x] Style the project
 - [ ] Build a boid
-  - [ ] Create sprite for boid
+  - [x] Create graphic for boid
   - [ ] Create boid behaviours
-    - [ ] Implement steering behaviour
-    - [ ] Implement seeking behaviour
-    - [ ] Apply all behaviours
+    - [ ] Implement wandering behaviour
+    - [x] Implement steering behaviour
 - [ ] Create group behaviours
-  - [ ] Cohesion
-  - [ ] Alignment
-  - [ ] Separation
+  - [x] Cohesion
+  - [x] Alignment
+  - [x] Separation
 - [ ] Add controller
   - [ ] View angle
   - [ ] View radius
