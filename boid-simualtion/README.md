@@ -22,10 +22,10 @@ A simualtion for flocking behaviour in fihses, birds, etc
   - [x] Behaviour coefficients
   - [ ] Play button
   - [ ] Pause botton
-  - [ ] Reset button
-- [ ] Collision detection
-  - [ ] Spatial hash grids
-  - [ ] Optimization with double linked list
-- [ ] Animation
+  - [ ] Adjust number of boids
+- [x] Collision detection
+  - [x] Spatial hash grids
+  - [x] Optimization with double linked list
+- [x] Animation
   - [x] Animation on single boid
-  - [ ] Animation on multiple boids
+  - [x] Animation on multiple boids

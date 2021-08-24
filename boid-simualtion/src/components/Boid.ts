@@ -1,5 +1,5 @@
 import { Container, Graphics, Rectangle } from 'pixi.js';
-import { Entity } from '../utils/SpatialHashGrid';
+import { Entity, SpatialHashGrid } from '../utils/SpatialHashGrid';
 import { Vector2D } from '../utils/Vector2D';
 import { controller } from './Controller';
 
@@ -23,9 +23,12 @@ export class Boid extends Entity {
 
   private _maxSpeed: number;
   private _maxSteeringForce: number;
+  
+  private _grid: SpatialHashGrid<Boid>;
 
-  constructor(x: number = 0, y: number = x) {
+  constructor(x: number = 0, y: number = x, grid: SpatialHashGrid<Boid>) {
     super(x, y);
+    this._grid = grid;
 
     // Random velocity
     const a = random_range(0, 2 * Math.PI);
@@ -64,11 +67,12 @@ export class Boid extends Entity {
 
   _applySteering() {
     const steeringForce = new Vector2D();
+    const locals = this._findNearBy();
     steeringForce
       .add(this._applyWandering())
-      // .add(this._applyAlignment(locals))
-      // .add(this._applyCohesion(locals))
-      // .add(this._applySeparation(locals))
+      .add(this._applyAlignment(locals))
+      .add(this._applyCohesion(locals))
+      .add(this._applySeparation(locals))
       .clamp(this._maxSteeringForce);
     this._velocity.add(steeringForce).clamp(this._maxSpeed);
 
@@ -77,6 +81,21 @@ export class Boid extends Entity {
     // if (!isNaN(this._direction.x)) {
     //   console.log(this._direction);
     // }
+  }
+
+  _findNearBy() {
+    const radius = controller.get('view-radius');
+    const locals: Boid[] = [];
+    
+    const clients = this._grid.findNearBy(this.position, radius * 2);
+    clients.forEach(client => {
+      if (client.entity != this) {
+        const dist = this.position.distanceTo(client.entity.position);
+        if (dist <= radius) locals.push(client.entity);
+      }
+    });
+
+    return locals;
   }
 
   update(dt: number, container: Rectangle) {
