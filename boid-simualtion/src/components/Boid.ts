@@ -1,4 +1,5 @@
 import { Container, Graphics, Rectangle } from 'pixi.js';
+import { Entity } from '../utils/SpatialHashGrid';
 import { Vector2D } from '../utils/Vector2D';
 import { controller } from './Controller';
 
@@ -9,12 +10,11 @@ const FORCE = 0.05;
 const MIN_MULT = 3;
 const MAX_MULT = 4;
 
-function random_range(a: number, b: number) {
+export function random_range(a: number, b: number) {
   return Math.random() * (b - a) + a;
 }
 
-export class Boid {
-  private _position: Vector2D;
+export class Boid extends Entity {
   private _velocity: Vector2D;
   private _direction: Vector2D;
   private _shape: Graphics;
@@ -25,7 +25,7 @@ export class Boid {
   private _maxSteeringForce: number;
 
   constructor(x: number = 0, y: number = x) {
-    this._position = new Vector2D(x, y);
+    super(x, y);
 
     // Random velocity
     const a = random_range(0, 2 * Math.PI);
@@ -41,11 +41,21 @@ export class Boid {
     // Make the shape
     const shape = new Graphics();
     shape.beginFill(0xffffff).drawPolygon(boidCoord).endFill();
-    shape.x = x;
-    shape.y = y;
-    console.log(this._direction.x, this._direction.y, this._direction.angle());
+    shape.x = x; shape.y = y; shape.zIndex = 5;
+    // console.log(this._direction.x, this._direction.y, this._direction.angle());
     shape.rotation = this._direction.angle();
+    
+    // // Add interaction
+    // shape.interactive = true; shape.buttonMode = true;
+    // shape.on('pointerdown', () => {
+    //   const clicked = shape.tint === 0xffff00;
+    //   shape.tint = clicked ? shape.tint : 0xffff00;
+    // })
     this._shape = shape;
+  }
+
+  get shape() {
+    return this._shape;
   }
 
   addTo(container: Container) {
@@ -63,6 +73,10 @@ export class Boid {
     this._velocity.add(steeringForce).clamp(this._maxSpeed);
 
     this._direction = this._velocity.clone().normalize();
+
+    // if (!isNaN(this._direction.x)) {
+    //   console.log(this._direction);
+    // }
   }
 
   update(dt: number, container: Rectangle) {
@@ -87,9 +101,6 @@ export class Boid {
     this._shape.x = position.x;
     this._shape.y = position.y;
     this._shape.rotation = this._direction.angle();
-
-    // console.log(this._direction);
-    // console.log('After', position.x, position.y);
   }
 
   // Move towards the average position of the locals

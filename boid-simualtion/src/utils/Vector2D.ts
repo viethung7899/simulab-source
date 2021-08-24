@@ -30,12 +30,12 @@ export class Vector2D {
   }
 
   lengthSquare() {
-    return this.x * this.x + this.y + this.y;
+    return this.x * this.x + this.y * this.y;
   }
 
   normalize() {
     const ls = this.lengthSquare();
-    if (ls == 0) return this;
+    if (ls === 0) return this;
     else return this.multiply(1.0 / Math.sqrt(ls));
   }
 
