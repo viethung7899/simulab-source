@@ -3,14 +3,18 @@ export const controller = new Map<string, number>();
 const menu = document.querySelector<HTMLDivElement>('.menu');
 export const menuButton = document.querySelector<HTMLButtonElement>('#menu');
 
-
 export function initController() {
   // Add event to the input
-  ['view-angle', 'view-radius', 'separation', 'alignment', 'cohesion', 'wandering'].forEach(
-    (id) => {
-      addEvent(id);
-    },
-  );
+  [
+    'view-angle',
+    'view-radius',
+    'separation',
+    'alignment',
+    'cohesion',
+    'wandering',
+  ].forEach((id) => {
+    addEvent(id);
+  });
 
   toggleMenu();
 }
@@ -36,6 +40,6 @@ function addEvent(id: string) {
 function toggleMenu() {
   menuButton.addEventListener('click', () => {
     const show = menu.style.display === 'none' ? 'block' : 'none';
-      menu.style.display = show;
+    menu.style.display = show;
   });
 }

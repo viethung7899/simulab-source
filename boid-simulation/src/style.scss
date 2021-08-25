@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-
 nav {
   position: relative;
 
-  button, a {
+  button,
+  a {
     @apply focus:outline-none rounded-md px-2 text-xl;
   }
 
@@ -45,7 +45,7 @@ nav {
     @apply flex justify-between items-center;
 
     p {
-      @apply text-sm
+      @apply text-sm;
     }
   }
 }

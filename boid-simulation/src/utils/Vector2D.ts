@@ -41,12 +41,15 @@ export class Vector2D {
 
   clamp(maxLen: number) {
     const ls = this.lengthSquare();
-    if (ls > maxLen * maxLen) return this.multiply(1.0 /Math.sqrt(ls) * maxLen);
+    if (ls > maxLen * maxLen)
+      return this.multiply((1.0 / Math.sqrt(ls)) * maxLen);
     return this;
   }
 
   distanceTo(v: Vector2D) {
-    return Math.sqrt((this.x - v.x) * (this.x - v.x) + (this.y - v.y) * (this.y - v.y));
+    return Math.sqrt(
+      (this.x - v.x) * (this.x - v.x) + (this.y - v.y) * (this.y - v.y),
+    );
   }
 
   angle() {

@@ -23,7 +23,7 @@ export class Boid extends Entity {
 
   private _maxSpeed: number;
   private _maxSteeringForce: number;
-  
+
   private _grid: SpatialHashGrid<Boid>;
 
   constructor(x: number = 0, y: number = x, grid: SpatialHashGrid<Boid>) {
@@ -44,10 +44,12 @@ export class Boid extends Entity {
     // Make the shape
     const shape = new Graphics();
     shape.beginFill(0xffffff).drawPolygon(boidCoord).endFill();
-    shape.x = x; shape.y = y; shape.zIndex = 5;
+    shape.x = x;
+    shape.y = y;
+    shape.zIndex = 5;
     // console.log(this._direction.x, this._direction.y, this._direction.angle());
     shape.rotation = this._direction.angle();
-    
+
     // // Add interaction
     // shape.interactive = true; shape.buttonMode = true;
     // shape.on('pointerdown', () => {
@@ -90,11 +92,11 @@ export class Boid extends Entity {
   _findNearBy() {
     const radius = controller.get('view-radius');
     const locals: Boid[] = [];
-    
+
     const clients = this._grid.findNearBy(this.position, radius * 2);
-    clients.forEach(client => {
+    clients.forEach((client) => {
       if (client.entity != this && onViewField(this, client.entity)) {
-        locals.push(client.entity)
+        locals.push(client.entity);
       }
     });
 
@@ -114,10 +116,14 @@ export class Boid extends Entity {
     const { x, y, width, height } = container;
     const direction = this._direction;
 
-    if (direction.x < 0 && position.x < x - BORDER) position.x = x + width + BORDER;
-    if (direction.x > 0 && position.x > x + width + BORDER) position.x = x - BORDER;
-    if (direction.y < 0 && position.y < y - BORDER) position.y = y + height + BORDER;
-    if (direction.y > 0 && position.y > y + height + BORDER) position.y = y - BORDER;
+    if (direction.x < 0 && position.x < x - BORDER)
+      position.x = x + width + BORDER;
+    if (direction.x > 0 && position.x > x + width + BORDER)
+      position.x = x - BORDER;
+    if (direction.y < 0 && position.y < y - BORDER)
+      position.y = y + height + BORDER;
+    if (direction.y > 0 && position.y > y + height + BORDER)
+      position.y = y - BORDER;
 
     // Shape displacement
     this._shape.x = position.x;
@@ -183,12 +189,13 @@ export class Boid extends Entity {
 
 function onViewField(boid: Boid, other: Boid) {
   const diff = other.position.clone().sub(boid.position);
-  const onViewRadius = Math.sqrt(diff.lengthSquare()) <= controller.get('view-radius');
+  const onViewRadius =
+    Math.sqrt(diff.lengthSquare()) <= controller.get('view-radius');
   diff.normalize();
   const cosine = boid.direction.x * diff.x + boid.direction.y * diff.y;
   let angle = 0; // in degree
-  if (cosine < -1) angle = 180;
-  if (cosine < 1) angle = Math.acos(cosine) / Math.PI * 180;
+  if (cosine <= -1) angle = 180;
+  if (cosine < 1) angle = (Math.acos(cosine) / Math.PI) * 180;
   const onViewAngle = angle < controller.get('view-angle') / 2;
   return onViewRadius && onViewAngle;
 }
