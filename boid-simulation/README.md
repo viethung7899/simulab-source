@@ -17,11 +17,11 @@ A simualtion for flocking behaviour in fihses, birds, etc
   - [x] Alignment
   - [x] Separation
 - [x] Add controller
-  - [x] View angle
+  - [ ] View angle
   - [x] View radius
   - [x] Behaviour coefficients
-  - [ ] Play button
-  - [ ] Pause botton
+  - [x] Play button
+  - [x] Pause botton
   - [ ] Adjust number of boids
 - [x] Collision detection
   - [x] Spatial hash grids
