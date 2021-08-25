@@ -17,7 +17,7 @@ A simualtion for flocking behaviour in fihses, birds, etc
   - [x] Alignment
   - [x] Separation
 - [x] Add controller
-  - [ ] View angle
+  - [x] View angle
   - [x] View radius
   - [x] Behaviour coefficients
   - [x] Play button

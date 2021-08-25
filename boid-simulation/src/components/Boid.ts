@@ -61,6 +61,10 @@ export class Boid extends Entity {
     return this._shape;
   }
 
+  get direction() {
+    return this._direction;
+  }
+
   addTo(container: Container) {
     container.addChild(this._shape);
   }
@@ -89,9 +93,8 @@ export class Boid extends Entity {
     
     const clients = this._grid.findNearBy(this.position, radius * 2);
     clients.forEach(client => {
-      if (client.entity != this) {
-        const dist = this.position.distanceTo(client.entity.position);
-        if (dist <= radius) locals.push(client.entity);
+      if (client.entity != this && onViewField(this, client.entity)) {
+        locals.push(client.entity)
       }
     });
 
@@ -176,4 +179,16 @@ export class Boid extends Entity {
       .multiply(controller.get('wandering'));
     return force;
   }
+}
+
+function onViewField(boid: Boid, other: Boid) {
+  const diff = other.position.clone().sub(boid.position);
+  const onViewRadius = Math.sqrt(diff.lengthSquare()) <= controller.get('view-radius');
+  diff.normalize();
+  const cosine = boid.direction.x * diff.x + boid.direction.y * diff.y;
+  let angle = 0; // in degree
+  if (cosine < -1) angle = 180;
+  if (cosine < 1) angle = Math.acos(cosine) / Math.PI * 180;
+  const onViewAngle = angle < controller.get('view-angle') / 2;
+  return onViewRadius && onViewAngle;
 }
