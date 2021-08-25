@@ -1,6 +1,8 @@
 export const controller = new Map<string, number>();
 
 const menu = document.querySelector<HTMLDivElement>('.menu');
+export const menuButton = document.querySelector<HTMLButtonElement>('#menu');
+
 
 export function initController() {
   // Add event to the input
@@ -10,15 +12,7 @@ export function initController() {
     },
   );
 
-  // Toggle menu
-  window.addEventListener('click', (e) => {
-    if ((e.target as Element).matches('#menu')) {
-      const show = menu.style.display === 'none' ? 'block' : 'none';
-      menu.style.display = show;
-    } else {
-      menu.style.display = 'none';
-    }
-  })
+  toggleMenu();
 }
 
 function addEvent(id: string) {
@@ -36,5 +30,12 @@ function addEvent(id: string) {
   input.addEventListener('input', () => {
     label.innerText = input.value;
     controller.set(id, +label.innerText);
+  });
+}
+
+function toggleMenu() {
+  menuButton.addEventListener('click', () => {
+    const show = menu.style.display === 'none' ? 'block' : 'none';
+      menu.style.display = show;
   });
 }

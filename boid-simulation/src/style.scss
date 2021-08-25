@@ -16,6 +16,22 @@ nav {
     right: 0.5rem;
     display: none;
   }
+
+  #play:hover {
+    @apply bg-green-200 text-green-600;
+  }
+
+  #pause:hover {
+    @apply bg-red-200 text-red-600;
+  }
+
+  #reset:hover {
+    @apply bg-yellow-200 text-yellow-600;
+  }
+
+  .regular-button:hover {
+    @apply bg-gray-200 text-black;
+  }
 }
 
 .menu {
