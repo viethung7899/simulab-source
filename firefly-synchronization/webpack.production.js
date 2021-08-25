@@ -9,7 +9,7 @@ module.exports = merge(config, {
   mode: 'production',
   output: {
     filename: '[name].[hash].bundle.js',
-    path: path.resolve(__dirname, '../../build/single-pendulum'),
+    path: path.resolve(__dirname, '../../build/firefly-synchronization'),
   },
   module: {
     rules: [
