@@ -10,7 +10,7 @@ const COLS = 15;
 export const playButton = document.querySelector<HTMLButtonElement>('#play');
 export const resetButton = document.querySelector<HTMLButtonElement>('#reset');
 const playButtonHTML = '<i class="fas fa-play"></i>';
-const paseButtonHTML = '<i class="fas fa-pause"></i>';
+const pauseButtonHTML = '<i class="fas fa-pause"></i>';
 
 export class Simulation {
   private _app: Application;
@@ -100,10 +100,10 @@ export function initSimulation(
 
   // Toggle playButton
   playButton.addEventListener('click', () => {
-    playButton.innerHTML = animation.isPlaying
-      ? paseButtonHTML
+    playButton.innerHTML = !animation.isPlaying
+      ? pauseButtonHTML
       : playButtonHTML;
-    playButton.id = animation.isPlaying ? 'pause' : 'play';
+    playButton.id = !animation.isPlaying ? 'pause' : 'play';
     animation.isPlaying = !animation.isPlaying;
   });
 
