@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+nav {
+  position: relative;
+
+  button,
+  a {
+    @apply focus:outline-none rounded-md px-2 text-xl;
+  }
+
+  .menu {
+    position: absolute;
+    top: 100%;
+    right: 0.5rem;
+    display: none;
+  }
+
+  #play:hover {
+    @apply bg-green-200 text-green-600;
+  }
+
+  #pause:hover {
+    @apply bg-red-200 text-red-600;
+  }
+
+  #reset:hover {
+    @apply bg-yellow-200 text-yellow-600;
+  }
+
+  .regular-button:hover {
+    @apply bg-gray-200 text-black;
+  }
+}
+
+.menu {
+  .label {
+    @apply font-semibold;
+  }
+
+  min-width: 150px;
+
+  .slider-label {
+    @apply flex justify-between items-center;
+
+    p {
+      @apply text-sm;
+    }
+  }
+}
