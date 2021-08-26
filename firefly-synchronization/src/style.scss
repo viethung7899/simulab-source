@@ -39,7 +39,7 @@ nav {
     @apply font-semibold;
   }
 
-  min-width: 150px;
+  min-width: 250px;
 
   .slider-label {
     @apply flex justify-between items-center;
@@ -47,5 +47,13 @@ nav {
     p {
       @apply text-sm;
     }
+  }
+
+  input[type="range"] {
+    width: 100%;
+  }
+
+  .sync {
+    display: none;
   }
 }

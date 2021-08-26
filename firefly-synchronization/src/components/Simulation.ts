@@ -18,7 +18,7 @@ export class Simulation {
       height,
       resolution: window.devicePixelRatio,
       autoDensity: true,
-      backgroundColor: 0x111111,
+      backgroundColor: 0x222222,
     });
     this._clients = [];
     this._grid = new SpatialHashGrid<Firefly>(
@@ -73,7 +73,7 @@ export class Simulation {
 
 // Animation
 export const animation = {
-  isPlaying: true,
+  isPlaying: false,
   update: (simulation: Simulation) => () => {
     if (!animation.isPlaying) return;
     simulation.update();
@@ -81,6 +81,11 @@ export const animation = {
 }
 
 // Initialize function
+export const playButton = document.querySelector<HTMLButtonElement>('#play');
+export const resetButton = document.querySelector<HTMLButtonElement>('#reset');
+const playButtonHTML = '<i class="fas fa-play"></i>';
+const pauseButtonHTML = '<i class="fas fa-pause"></i>';
+
 export function initSimulation(
   simulation: Simulation,
   canvasContainer: HTMLDivElement,
@@ -94,6 +99,21 @@ export function initSimulation(
     simulation.clients.forEach((client) =>
       simulation.grid.updateClient(client),
     );
+  });
+
+  // Toggle playButton
+  playButton.addEventListener('click', () => {
+    playButton.innerHTML = !animation.isPlaying
+      ? pauseButtonHTML
+      : playButtonHTML;
+    playButton.id = !animation.isPlaying ? 'pause' : 'play';
+    animation.isPlaying = !animation.isPlaying;
+  });
+
+  // Toggle resetButton
+  resetButton.addEventListener('click', () => {
+    while (simulation.clients.length > 0) simulation.removeFirefly();
+    for (let i = 0; i < N; i++) simulation.addFirefly();
   });
 
   // Trigger animation

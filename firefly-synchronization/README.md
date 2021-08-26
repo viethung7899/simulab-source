@@ -15,10 +15,10 @@ How swarns of fireflies can synchronize their flashes?
 - [x] Collision detection
   - [x] Spatial hash grid (quite effective)
 - [ ] Controls
-  - [ ] Animation control
-    - [ ] Play button
-    - [ ] Stop button
-    - [ ] Reset button
+  - [x] Animation control
+    - [x] Play button
+    - [x] Stop button
+    - [x] Reset button
   - [ ] Firefly control
     - [ ] Synchronize button
     - [ ] Number of fireflies
