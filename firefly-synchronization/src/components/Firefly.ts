@@ -1,4 +1,4 @@
-import { Container, Filter, Graphics, Rectangle } from 'pixi.js';
+import { Container, Graphics, Rectangle } from 'pixi.js';
 import { Entity, SpatialHashGrid } from '../utils/SpatialHashGrid';
 import { Vector2D } from '../utils/Vector2D';
 
@@ -8,24 +8,19 @@ const FORCE = 0.1;
 const MIN_MULT = 3;
 const MAX_MULT = 4;
 const RADIUS = 5;
+const VIEW_RADIUS = 200;
 
 const CYCLE = 100;
-const THRESHOLD = 50;
+const THRESHOLD = 75;
+const AMOUNT = 0.01;
 
-type Uniform = {
-  alpha: number;
-};
-
-type Shader = {
-  uniform: Uniform;
-  filter: Filter;
+type FireFlyShape = {
+  shape: Graphics;
+  outline: Graphics;
 };
 
 export class Firefly extends Entity {
-  private _graphic: {
-    shape: Graphics;
-    outline: Graphics;
-  };
+  private _graphic: FireFlyShape;
 
   private _velocity: Vector2D;
   private _direction: Vector2D;
@@ -38,7 +33,7 @@ export class Firefly extends Entity {
 
   private _grid: SpatialHashGrid<Firefly>;
 
-  constructor(x: number, y: number) {
+  constructor(x: number, y: number, grid: SpatialHashGrid<Firefly>) {
     super(x, y);
 
     // Random velocity
@@ -52,10 +47,17 @@ export class Firefly extends Entity {
     this._maxSteeringForce = FORCE * mult;
     this._wanderAngle = 0;
 
-    // Random phase
+    // Random clock position
     this._clock = Math.floor(Math.random() * CYCLE);
 
+    // Make graphic
     this._graphic = newGraphic(x, y);
+
+    this._grid = grid;
+  }
+
+  get graphic(): FireFlyShape {
+    return this.graphic;
   }
 
   showOn(container: Container) {
@@ -70,7 +72,7 @@ export class Firefly extends Entity {
     clients.forEach((client) => {
       if (
         client.entity != this &&
-        client.entity.position.distanceTo(this.position)
+        client.entity.position.distanceTo(this.position) < VIEW_RADIUS
       ) {
         locals.push(client.entity);
       }
@@ -110,7 +112,16 @@ export class Firefly extends Entity {
 
   _applyLighting() {
     this._graphic.shape.alpha = cycleToAlpha(this._clock);
-    this._clock = (this._clock + 1) % CYCLE;
+    
+    // Notify the neighbor
+    if (this._clock == THRESHOLD) {
+      const neighbors = this._findBearBy();
+      neighbors.forEach(firefly => {
+        firefly._clock = Math.floor(firefly._clock * (1 + AMOUNT)) % CYCLE;
+      })
+    }
+
+    this._clock = (this._clock + 2) % CYCLE;
   }
 
   update(delta: number, container: Rectangle) {
@@ -140,7 +151,7 @@ export class Firefly extends Entity {
   }
 }
 
-function newGraphic(x: number, y: number) {
+function newGraphic(x: number, y: number): FireFlyShape {
   const shape = new Graphics();
   shape.beginFill(0xffff00).drawCircle(0, 0, RADIUS).endFill();
   shape.x = x;
