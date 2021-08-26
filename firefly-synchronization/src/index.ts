@@ -30,5 +30,5 @@ window.addEventListener('resize', () => {
 });
 
 app.ticker.add(() => {
-  bug.update(0.1);
+  bug.update(0.1, app.renderer.screen);
 })
