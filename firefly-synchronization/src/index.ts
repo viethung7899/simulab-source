@@ -1,15 +1,17 @@
 import { Application } from '@pixi/app';
 import { Graphics, Sprite } from 'pixi.js';
 import { initController } from './components/Controller';
-import { Firefly } from './components/Firefly';
+import { Firefly, random_range } from './components/Firefly';
 import './style.scss';
 
 const canvasContainer =
-  document.querySelector<HTMLDivElement>('#canvas-container');
+document.querySelector<HTMLDivElement>('#canvas-container');
 const canvas = document.querySelector<HTMLCanvasElement>('#sketch');
 const { width, height } = canvasContainer.getBoundingClientRect();
 
 initController();
+
+const N = 1000;
 
 const app = new Application({
   view: canvas,
@@ -20,8 +22,13 @@ const app = new Application({
   backgroundColor: 0x333333,
 });
 
-const bug = new Firefly(400, 400);
-bug.showOn(app.stage);
+const bugs: Firefly[] = [];
+
+for (let i = 0; i < N; i++) {
+  const bug = new Firefly(random_range(0, width), random_range(0, height));
+  bug.showOn(app.stage);
+  bugs.push(bug);
+}
 
 window.addEventListener('resize', () => {
   // Resize the canvas
@@ -30,5 +37,5 @@ window.addEventListener('resize', () => {
 });
 
 app.ticker.add(() => {
-  bug.update(0.1, app.renderer.screen);
-})
+  bugs.forEach(bug => bug.update(0.1, app.renderer.screen));
+});

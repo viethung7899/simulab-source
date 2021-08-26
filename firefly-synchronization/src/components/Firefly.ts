@@ -3,12 +3,14 @@ import { Entity, SpatialHashGrid } from '../utils/SpatialHashGrid';
 import { Vector2D } from '../utils/Vector2D';
 
 const BORDER = 40;
-const SPEED = 2.5;
+const SPEED = 1;
 const FORCE = 0.1;
 const MIN_MULT = 3;
 const MAX_MULT = 4;
 const RADIUS = 5;
-const ENERGY_SPEED = 0.01;
+
+const CYCLE = 100;
+const THRESHOLD = 50;
 
 type Uniform = {
   alpha: number;
@@ -32,9 +34,8 @@ export class Firefly extends Entity {
   private _maxSteeringForce: number;
   private _wanderAngle = 0;
 
-  private _energy: number;
-  private _isReleasing = false;
-  
+  private _clock: number;
+
   private _grid: SpatialHashGrid<Firefly>;
 
   constructor(x: number, y: number) {
@@ -52,7 +53,7 @@ export class Firefly extends Entity {
     this._wanderAngle = 0;
 
     // Random phase
-    this._energy = Math.random();
+    this._clock = Math.floor(Math.random() * CYCLE);
 
     this._graphic = newGraphic(x, y);
   }
@@ -66,8 +67,11 @@ export class Firefly extends Entity {
     const locals: Firefly[] = [];
 
     const clients = this._grid.findNearBy(this.position, radius * 2);
-    clients.forEach(client => {
-      if (client.entity != this && client.entity.position.distanceTo(this.position)) {
+    clients.forEach((client) => {
+      if (
+        client.entity != this &&
+        client.entity.position.distanceTo(this.position)
+      ) {
         locals.push(client.entity);
       }
     });
@@ -105,31 +109,12 @@ export class Firefly extends Entity {
   }
 
   _applyLighting() {
-    this._graphic.shape.alpha = this._isReleasing ? this._energy : 0;
-    
-    if (this._isReleasing) {
-      this._energy -= ENERGY_SPEED;
-      if (this._energy < 0) {
-        this._energy = -this._energy % 1;
-        this._isReleasing = false;
-      }
-      return;
-    }
-
-    if (this._energy > 1) {
-      this._energy = 1 - this._energy % 1;
-      this._isReleasing = true;
-      
-      // Share enery to the locals
-    } else {
-      this._energy += ENERGY_SPEED;
-    }
-
+    this._graphic.shape.alpha = cycleToAlpha(this._clock);
+    this._clock = (this._clock + 1) % CYCLE;
   }
 
   update(delta: number, container: Rectangle) {
     this._applyMoving(delta, container);
-    // Flashing
     this._applyLighting();
   }
 
@@ -171,4 +156,10 @@ function newGraphic(x: number, y: number) {
 
 export function random_range(a: number, b: number) {
   return Math.random() * (b - a) + a;
+}
+
+export function cycleToAlpha(a: number) {
+  if (a < THRESHOLD) return 0;
+  if (a < CYCLE) return 1 - (a - THRESHOLD) / (CYCLE - THRESHOLD);
+  return 1;
 }
