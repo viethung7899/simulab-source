@@ -8,11 +8,9 @@ const FORCE = 0.1;
 const MIN_MULT = 3;
 const MAX_MULT = 4;
 const RADIUS = 5;
-const VIEW_RADIUS = 200;
-
-const CYCLE = 100;
-const THRESHOLD = 75;
-const AMOUNT = 0.01;
+const VIEW_RADIUS = 350;
+const CLOCK_SPEED = 2;
+const NUDGE_AMOUNT = 0.05;
 
 type FireFlyShape = {
   shape: Graphics;
@@ -48,7 +46,7 @@ export class Firefly extends Entity {
     this._wanderAngle = 0;
 
     // Random clock position
-    this._clock = Math.floor(Math.random() * CYCLE);
+    this._clock = Math.random();
 
     // Make graphic
     this._graphic = newGraphic(x, y);
@@ -110,23 +108,35 @@ export class Firefly extends Entity {
     this._graphic.outline.y = position.y;
   }
 
-  _applyLighting() {
-    this._graphic.shape.alpha = cycleToAlpha(this._clock);
-    
-    // Notify the neighbor
-    if (this._clock == THRESHOLD) {
-      const neighbors = this._findBearBy();
-      neighbors.forEach(firefly => {
-        firefly._clock = Math.floor(firefly._clock * (1 + AMOUNT)) % CYCLE;
-      })
-    }
+  _applyLighting(delta: number) {    
+    // // Notify the neighbor
+    // if (this._clock == THRESHOLD) {
+    //   const neighbors = this._findBearBy();
+    //   neighbors.forEach(firefly => {
+    //     firefly._clock = Math.floor(firefly._clock * (1 + AMOUNT)) % CYCLE;
+    //   })
+    // }
+    this._clock += (delta / 10) * CLOCK_SPEED;
+    this._graphic.shape.alpha *= 0.9;
 
-    this._clock = (this._clock + 2) % CYCLE;
+    if (this._clock > 1) {
+      // Flash!
+      this._graphic.shape.alpha = 1;
+      this._clock = 0;
+
+      const neighbors = this._findBearBy();
+      console.log(neighbors.length);
+      neighbors.forEach(ff => {
+        ff._clock *= (1 + NUDGE_AMOUNT);
+        if (ff._clock > 1) ff._clock = 1;
+      })
+      
+    }
   }
 
   update(delta: number, container: Rectangle) {
-    this._applyMoving(delta, container);
-    this._applyLighting();
+    // this._applyMoving(delta, container);
+    this._applyLighting(delta);
   }
 
   _steer() {
@@ -167,10 +177,4 @@ function newGraphic(x: number, y: number): FireFlyShape {
 
 export function random_range(a: number, b: number) {
   return Math.random() * (b - a) + a;
-}
-
-export function cycleToAlpha(a: number) {
-  if (a < THRESHOLD) return 0;
-  if (a < CYCLE) return 1 - (a - THRESHOLD) / (CYCLE - THRESHOLD);
-  return 1;
 }

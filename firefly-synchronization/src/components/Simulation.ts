@@ -18,7 +18,7 @@ export class Simulation {
       height,
       resolution: window.devicePixelRatio,
       autoDensity: true,
-      backgroundColor: 0x333333,
+      backgroundColor: 0x111111,
     });
     this._clients = [];
     this._grid = new SpatialHashGrid<Firefly>(
