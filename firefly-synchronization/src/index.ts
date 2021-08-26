@@ -29,4 +29,6 @@ window.addEventListener('resize', () => {
   app.renderer.resize(width, height);
 });
 
-console.log(app);
+app.ticker.add(() => {
+  bug.update(0.1);
+})
