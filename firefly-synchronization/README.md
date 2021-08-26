@@ -7,13 +7,13 @@ How swarns of fireflies can synchronize their flashes?
 - [x] Project setup
 - [ ] Firefly model
   - [x] Make graphics for fireflies
-  - [ ] Wandering behaviour
+  - [x] Wandering behaviour
   - [ ] Edge avoidance behaviour
-  - [ ] Flashing behaviour
-- [ ] Synchronize model
-  - [ ] Implement Kuramoto model
-- [ ] Collision detection
-  - [ ] Spatial hash grid (quite effective)
+  - [x] Flashing behaviour
+- [x] Synchronize model
+  - [x] Implement synchronize model model
+- [x] Collision detection
+  - [x] Spatial hash grid (quite effective)
 - [ ] Controls
   - [ ] Animation control
     - [ ] Play button
@@ -23,4 +23,3 @@ How swarns of fireflies can synchronize their flashes?
     - [ ] Synchronize button
     - [ ] Number of fireflies
     - [ ] View radius
-    - [ ] View angle
