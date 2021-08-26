@@ -1,6 +1,7 @@
 import { Container, Graphics, Rectangle } from 'pixi.js';
 import { Entity, SpatialHashGrid } from '../utils/SpatialHashGrid';
 import { Vector2D } from '../utils/Vector2D';
+import {controller} from './Controller'
 
 const BORDER = 40;
 const SPEED = 1;
@@ -8,9 +9,6 @@ const FORCE = 0.1;
 const MIN_MULT = 3;
 const MAX_MULT = 4;
 const RADIUS = 5;
-const VIEW_RADIUS = 350;
-const CLOCK_SPEED = 2;
-const NUDGE_AMOUNT = 0.05;
 
 type FireFlyShape = {
   shape: Graphics;
@@ -62,6 +60,10 @@ export class Firefly extends Entity {
     container.addChild(this._graphic.shape, this._graphic.outline);
   }
 
+  remove(container: Container) {
+    container.removeChild(this._graphic.shape, this._graphic.outline);
+  }
+
   _findBearBy() {
     const radius = RADIUS * 10;
     const locals: Firefly[] = [];
@@ -70,7 +72,7 @@ export class Firefly extends Entity {
     clients.forEach((client) => {
       if (
         client.entity != this &&
-        client.entity.position.distanceTo(this.position) < VIEW_RADIUS
+        client.entity.position.distanceTo(this.position) < controller.params.get('view-radius')
       ) {
         locals.push(client.entity);
       }
@@ -109,7 +111,7 @@ export class Firefly extends Entity {
   }
 
   _applyLighting(delta: number) {    
-    this._clock += (delta / 10) * CLOCK_SPEED;
+    this._clock += (delta / 10) * controller.params.get('clock-speed');
     this._graphic.shape.alpha *= 0.9;
 
     if (this._clock > 1) {
@@ -117,9 +119,10 @@ export class Firefly extends Entity {
       this._graphic.shape.alpha = 1;
       this._clock = 0;
 
+      if (!controller.sync) return;
       const neighbors = this._findBearBy();
       neighbors.forEach(ff => {
-        ff._clock *= (1 + NUDGE_AMOUNT);
+        ff._clock *= (1 + controller.params.get('sync-coeff'));
         if (ff._clock > 1) ff._clock = 1;
       })
       

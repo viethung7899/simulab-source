@@ -4,7 +4,7 @@ const attr = ['number-fireflies', 'clock-speed', 'view-radius', 'sync-coeff'];
 const checkBox = menu.querySelector<HTMLInputElement>('input[type="checkbox"]');
 const syncMenu = menu.querySelector<HTMLDivElement>('.sync');
 
-const controller = {
+export const controller = {
   params: new Map<string, number>(),
   sync: false
 }
@@ -37,6 +37,7 @@ function addEvent(id: string) {
 
 function toggleSync() {
   checkBox.addEventListener('input', () => {
+    controller.sync = checkBox.checked;
     syncMenu.style.display = checkBox.checked ? 'block' : 'none';
   })
 }

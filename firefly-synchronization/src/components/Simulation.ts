@@ -59,8 +59,7 @@ export class Simulation {
     if (this._clients.length === 0) return;
     const client = this._clients.pop();
     this._grid.removeClient(client);
-    this._app.stage.removeChild(client.entity.graphic.shape);
-    this._app.stage.removeChild(client.entity.graphic.outline);
+    client.entity.remove(this._app.stage);
   }
 
   update() {

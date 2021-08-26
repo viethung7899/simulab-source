@@ -20,6 +20,6 @@ How swarns of fireflies can synchronize their flashes?
     - [x] Stop button
     - [x] Reset button
   - [ ] Firefly control
-    - [ ] Synchronize button
+    - [x] Synchronize button
     - [ ] Number of fireflies
-    - [ ] View radius
+    - [x] View radius
