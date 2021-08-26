@@ -1,6 +1,7 @@
 import { Application } from '@pixi/app';
-import { Graphics } from 'pixi.js';
+import { Graphics, Sprite } from 'pixi.js';
 import { initController } from './components/Controller';
+import { Firefly } from './components/Firefly';
 import './style.scss';
 
 const canvasContainer =
@@ -19,12 +20,8 @@ const app = new Application({
   backgroundColor: 0x333333,
 });
 
-// Sample shape
-const shape = new Graphics();
-shape.beginFill(0x00ffff).drawCircle(0, 0, 50).endFill();
-shape.x = 400;
-shape.y = 400;
-app.stage.addChild(shape);
+const bug = new Firefly(400, 400);
+bug.showOn(app.stage);
 
 window.addEventListener('resize', () => {
   // Resize the canvas

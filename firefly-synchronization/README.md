@@ -6,7 +6,7 @@ How swarns of fireflies can synchronize their flashes?
 
 - [x] Project setup
 - [ ] Firefly model
-  - [ ] Make graphics for fireflies
+  - [x] Make graphics for fireflies
   - [ ] Wandering behaviour
   - [ ] Edge avoidance behaviour
   - [ ] Flashing behaviour

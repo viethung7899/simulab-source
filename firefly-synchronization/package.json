@@ -32,6 +32,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "copy-webpack-plugin": "^9.0.1",
     "pixi.js": "^6.1.2",
     "sass-loader": "^12.1.0",
     "style-loader": "^3.0.0",
