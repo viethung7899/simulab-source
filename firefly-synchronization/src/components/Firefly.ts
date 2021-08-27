@@ -1,7 +1,7 @@
 import { Container, Graphics, Rectangle } from 'pixi.js';
 import { Entity, SpatialHashGrid } from '../utils/SpatialHashGrid';
 import { Vector2D } from '../utils/Vector2D';
-import {controller} from './Controller'
+import { controller } from './Controller';
 
 const BORDER = 40;
 const SPEED = 1;
@@ -72,7 +72,8 @@ export class Firefly extends Entity {
     clients.forEach((client) => {
       if (
         client.entity != this &&
-        client.entity.position.distanceTo(this.position) < controller.params.get('view-radius')
+        client.entity.position.distanceTo(this.position) <
+          controller.params.get('view-radius')
       ) {
         locals.push(client.entity);
       }
@@ -110,7 +111,7 @@ export class Firefly extends Entity {
     this._graphic.outline.y = position.y;
   }
 
-  _applyLighting(delta: number) {    
+  _applyLighting(delta: number) {
     this._clock += (delta / 10) * controller.params.get('clock-speed');
     this._graphic.shape.alpha *= 0.9;
 
@@ -121,11 +122,10 @@ export class Firefly extends Entity {
 
       if (!controller.sync) return;
       const neighbors = this._findBearBy();
-      neighbors.forEach(ff => {
-        ff._clock *= (1 + controller.params.get('sync-coeff'));
+      neighbors.forEach((ff) => {
+        ff._clock *= 1 + controller.params.get('sync-coeff');
         if (ff._clock > 1) ff._clock = 1;
-      })
-      
+      });
     }
   }
 

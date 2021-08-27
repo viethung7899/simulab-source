@@ -3,7 +3,7 @@ const config = require('./webpack.common');
 const { merge } = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require("terser-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = merge(config, {
   mode: 'production',
@@ -15,7 +15,12 @@ module.exports = merge(config, {
     rules: [
       {
         test: /\.(scss|sass|css)$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader', 'postcss-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader',
+          'postcss-loader',
+        ],
       },
     ],
   },
@@ -27,6 +32,6 @@ module.exports = merge(config, {
   ],
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin()]
-  }
+    minimizer: [new TerserPlugin()],
+  },
 });

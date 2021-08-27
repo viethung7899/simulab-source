@@ -1,6 +1,6 @@
-import { Application } from "pixi.js";
-import { Client, SpatialHashGrid } from "../utils/SpatialHashGrid";
-import { Firefly, random_range } from "./Firefly";
+import { Application } from 'pixi.js';
+import { Client, SpatialHashGrid } from '../utils/SpatialHashGrid';
+import { Firefly, random_range } from './Firefly';
 
 const N = 500;
 const ROWS = 15;
@@ -46,7 +46,7 @@ export class Simulation {
       random_range(x, x + width),
       random_range(y, y + height),
       this._grid,
-    )
+    );
     firefly.showOn(this._app.stage);
 
     // Add to the grid
@@ -77,7 +77,7 @@ export const animation = {
     if (!animation.isPlaying) return;
     simulation.update();
   },
-}
+};
 
 // Initialize function
 export const playButton = document.querySelector<HTMLButtonElement>('#play');
