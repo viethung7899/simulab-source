@@ -1,4 +1,4 @@
-import { initController } from './components/Controller';
+import { addQuanityEvent, initController } from './components/Controller';
 import { initSimulation, Simulation } from './components/Simulation';
 import './style.scss';
 
@@ -12,3 +12,4 @@ const { width, height } = canvasContainer.getBoundingClientRect();
 
 const simulation = new Simulation(canvas, width, height);
 initSimulation(simulation, canvasContainer);
+addQuanityEvent(simulation);

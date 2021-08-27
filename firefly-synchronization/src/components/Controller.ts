@@ -1,3 +1,5 @@
+import { Simulation } from './Simulation';
+
 const menu = document.querySelector<HTMLDivElement>('.menu');
 const menuButton = document.querySelector<HTMLButtonElement>('#menu');
 const attr = ['number-fireflies', 'clock-speed', 'view-radius', 'sync-coeff'];
@@ -6,9 +8,8 @@ const syncMenu = menu.querySelector<HTMLDivElement>('.sync');
 
 export const controller = {
   params: new Map<string, number>(),
-  sync: false
-}
-
+  sync: false,
+};
 
 function toggleMenu() {
   menuButton.addEventListener('click', () => {
@@ -39,11 +40,22 @@ function toggleSync() {
   checkBox.addEventListener('input', () => {
     controller.sync = checkBox.checked;
     syncMenu.style.display = checkBox.checked ? 'block' : 'none';
-  })
+  });
 }
 
 export function initController() {
   toggleMenu();
-  attr.forEach(id => addEvent(id));
+  attr.forEach((id) => addEvent(id));
   toggleSync();
+}
+
+export function addQuanityEvent(simulation: Simulation) {
+  const submenu = menu.querySelector<HTMLDivElement>(`#number-fireflies`);
+  const input = submenu.children[1] as HTMLInputElement;
+
+  input.addEventListener('input', () => {
+    const value = +input.value;
+    while (simulation.clients.length < value) simulation.addFirefly();
+    while (simulation.clients.length > value) simulation.removeFirefly();
+  });
 }
