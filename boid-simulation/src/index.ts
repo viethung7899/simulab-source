@@ -1,4 +1,4 @@
-import { initController } from './components/Controller';
+import { addBoidNumberControl, initController } from './components/Controller';
 import { initSimulation, Simulation } from './components/Simulation';
 import './style.scss';
 
@@ -14,3 +14,4 @@ const { width: w, height: h } = canvasContainer.getBoundingClientRect();
 // App initialization
 const simulation = new Simulation(canvas, w, h);
 initSimulation(simulation, canvasContainer);
+addBoidNumberControl(simulation);

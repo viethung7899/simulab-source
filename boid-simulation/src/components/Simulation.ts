@@ -1,8 +1,8 @@
 import { Application } from 'pixi.js';
 import { Client, SpatialHashGrid } from '../utils/SpatialHashGrid';
 import { Boid, random_range } from './Boid';
+import { controller } from './Controller';
 
-const BOIDS = 300;
 const ROWS = 15;
 const COLS = 15;
 
@@ -87,7 +87,8 @@ export function initSimulation(
   simulation: Simulation,
   canvasContainer: HTMLDivElement,
 ) {
-  for (let i = 0; i < BOIDS; i++) simulation.addBoid();
+  const n = controller.get('boid-number');
+  for (let i = 0; i < n; i++) simulation.addBoid();
 
   // Resize window
   window.addEventListener('resize', () => {
@@ -110,7 +111,8 @@ export function initSimulation(
   // Toggle resetButton
   resetButton.addEventListener('click', () => {
     while (simulation.clients.length > 0) simulation.removeBoid();
-    for (let i = 0; i < BOIDS; i++) simulation.addBoid();
+    const n = controller.get('boid-number');
+    for (let i = 0; i < n; i++) simulation.addBoid();
   });
 
   // Trigger animation
