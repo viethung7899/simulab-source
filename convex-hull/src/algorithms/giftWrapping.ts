@@ -3,13 +3,13 @@ import { Point, PointRenderer } from '../components/Point';
 import { GRAY, GREEN, YELLOW } from '../utils/constant';
 import { clockwise } from '../utils/utils';
 
-export function* giftWrapping(pr: PointRenderer, lr: LineRenderer): Generator {
+export function* giftWrapping(points: Point[], lr: LineRenderer): Generator {
   lr.clearAll();
   const hull: Point[] = [];
 
   // leftmost point
-  let pointOnHull = pr.points[0];
-  for (let p of pr.points) {
+  let pointOnHull = points[0];
+  for (let p of points) {
     if (pointOnHull.x > p.x) pointOnHull = p;
   }
 
@@ -17,16 +17,16 @@ export function* giftWrapping(pr: PointRenderer, lr: LineRenderer): Generator {
 
   do {
     hull.push(pointOnHull);
-    endPoint = pr.points[0];
+    endPoint = points[0];
 
     // Connect dootd by yellow line
     let yellowLine = lr.connect(pointOnHull, endPoint);
     yellowLine.updateColor(YELLOW);
     yield;
 
-    for (let i = 1; i < pr.points.length; i++) {
+    for (let i = 1; i < points.length; i++) {
       // Connect gray line
-      const point = pr.points[i];
+      const point = points[i];
       if (point == pointOnHull) continue;
 
       const grayLine = lr.connect(pointOnHull, point);

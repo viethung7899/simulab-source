@@ -4,11 +4,8 @@ import { Point, PointRenderer } from '../components/Point';
 import { GRAY, GREEN, YELLOW } from '../utils/constant';
 import { clockwise, distanceSq, getAngle } from '../utils/utils';
 
-export function* grahamScan(pr: PointRenderer, lr: LineRenderer): Generator {
+export function* grahamScan(points: Point[], lr: LineRenderer): Generator {
   lr.clearAll();
-
-  // Sort all the points
-  let points = [...pr.points];
 
   let point_lowest = points[0];
   points.forEach((point) => {

@@ -42,7 +42,7 @@ const animation = async () => {
   const speed = getAnimationSpeed();
   const convexHull = getAlgorithm();
 
-  const gen = convexHull(pointRenderer, lineRenderer);
+  const gen = convexHull(pointRenderer.points, lineRenderer);
 
   // Lock all button and canvas
   playButton.disabled = true;
