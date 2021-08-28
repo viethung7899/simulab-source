@@ -1,5 +1,5 @@
-import { Application, Container, Graphics } from "pixi.js";
-import { Point } from "./Point";
+import { Application, Container, Graphics } from 'pixi.js';
+import { Point } from './Point';
 
 export class Line {
   public p1: Point;
@@ -9,7 +9,7 @@ export class Line {
   constructor(p1: Point, p2: Point) {
     this.p1 = p1;
     this.p2 = p2;
-    
+
     const graphic = new Graphics();
     graphic.lineStyle(2, 0xffffff, 0.8).moveTo(p1.x, p1.y).lineTo(p2.x, p2.y);
     this.graphic = graphic;

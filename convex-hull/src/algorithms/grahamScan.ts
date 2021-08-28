@@ -1,78 +1,8 @@
 import { rgb2hex } from '@pixi/utils';
 import { Line, LineRenderer } from '../components/Line';
 import { Point, PointRenderer } from '../components/Point';
-
-const YELLOW = 0xffff00;
-const GREEN = 0x00ff00;
-const GRAY = 0xaaaaaa;
-
-export type Algorithm = typeof giftWrapping;
-
-export function* giftWrapping(pr: PointRenderer, lr: LineRenderer): Generator {
-  lr.clearAll();
-  const hull: Point[] = [];
-
-  // leftmost point
-  let pointOnHull = pr.points[0];
-  for (let p of pr.points) {
-    if (pointOnHull.x > p.x) pointOnHull = p;
-  }
-
-  let endPoint: Point;
-
-  do {
-    hull.push(pointOnHull);
-    endPoint = pr.points[0];
-
-    // Connect dootd by yellow line
-    let yellowLine = lr.connect(pointOnHull, endPoint);
-    yellowLine.updateColor(YELLOW);
-    yield;
-
-    for (let i = 1; i < pr.points.length; i++) {
-      // Connect gray line
-      const point = pr.points[i];
-      if (point == pointOnHull) continue;
-
-      const grayLine = lr.connect(pointOnHull, point);
-      grayLine.updateColor(GRAY);
-      yield;
-
-      if (
-        endPoint == pointOnHull ||
-        clockwise(pointOnHull, endPoint, point) < 0
-      ) {
-        endPoint = point;
-
-        // Gray line -> yellow line
-        lr.removeLine(yellowLine);
-        yellowLine = grayLine;
-        yellowLine.updateColor(YELLOW);
-        yield;
-      } else {
-        // Remove the line
-        lr.removeLine(grayLine);
-        yield;
-      }
-    }
-
-    // Next point found
-    pointOnHull = endPoint;
-    yellowLine.updateColor(GREEN);
-    yield;
-
-    // find the most counter-clockwise point
-  } while (endPoint != hull[0]);
-}
-
-function clockwise(pivot: Point, p1: Point, p2: Point) {
-  const x1 = p1.x - pivot.x;
-  const y1 = p1.y - pivot.y;
-  const x2 = p2.x - pivot.x;
-  const y2 = p2.y - pivot.y;
-
-  return x1 * y2 - y1 * x2;
-}
+import { GRAY, GREEN, YELLOW } from '../utils/constant';
+import { clockwise, distanceSq, getAngle } from '../utils/utils';
 
 export function* grahamScan(pr: PointRenderer, lr: LineRenderer): Generator {
   lr.clearAll();
@@ -113,8 +43,11 @@ export function* grahamScan(pr: PointRenderer, lr: LineRenderer): Generator {
 
   for (let i = 0; i < angleAndPoints.length; i++) {
     const r = i / angleAndPoints.length;
+    const line = lr.connect(point_lowest, angleAndPoints[i][1]);
+    line.updateColor(GRAY);
     angleAndPoints[i][1].updateColor(rgb2hex([r, 0, 1 - r]));
     yield;
+    lr.removeLine(line);
   }
 
   const pointStack = [point_lowest];
@@ -148,17 +81,4 @@ export function* grahamScan(pr: PointRenderer, lr: LineRenderer): Generator {
   yield;
   lr.connect(pointStack.at(0), pointStack.at(-1)).updateColor(GREEN);
   yield;
-}
-
-function getAngle(p1: Point, p2: Point) {
-  const x = p2.x - p1.x;
-  const y = p2.y - p1.y;
-  if (x === 0 && y === 0) return 0;
-  return Math.acos(x / Math.sqrt(x ** 2 + y ** 2));
-}
-
-function distanceSq(p1: Point, p2: Point) {
-  const x = p2.x - p1.x;
-  const y = p2.y - p1.y;
-  return x ** 2 + y ** 2;
 }

@@ -1,6 +1,8 @@
 const menu = document.querySelector<HTMLDivElement>('.menu');
 export const menuButton = document.querySelector<HTMLButtonElement>('#menu');
-import { Algorithm, giftWrapping, grahamScan } from '../utils/algorithms';
+import { giftWrapping } from '../algorithms/giftWrapping';
+import { grahamScan } from '../algorithms/grahamScan';
+import { Algorithm } from '../utils/constant';
 
 export const controller = {
   isPlaying: false,
@@ -63,6 +65,6 @@ export const useMenu = () => {
   return {
     getAnimationSpeed,
     getAlgorithm,
-    disableMenu
+    disableMenu,
   };
 };

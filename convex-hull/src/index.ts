@@ -74,7 +74,7 @@ resetButton.addEventListener('click', reset);
 randomButton.addEventListener('click', () => {
   reset();
   const n = Math.random() * 80 + 20;
-  const {width, height} = app.view.getBoundingClientRect();
+  const { width, height } = app.view.getBoundingClientRect();
   for (let i = 0; i < n; i++) {
     const x = Math.random() * (width - 100) + 50;
     const y = Math.random() * (height - 100) + 50;
