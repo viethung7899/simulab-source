@@ -1,3 +1,4 @@
+import { rgb2hex } from '@pixi/utils';
 import { Line, LineRenderer } from '../components/Line';
 import { Point, PointRenderer } from '../components/Point';
 
@@ -5,9 +6,10 @@ const YELLOW = 0xffff00;
 const GREEN = 0x00ff00;
 const GRAY = 0xaaaaaa;
 
+export type Algorithm = typeof giftWrapping;
+
 export function* giftWrapping(pr: PointRenderer, lr: LineRenderer): Generator {
   lr.clearAll();
-  if (pr.points.length < 3) return;
   const hull: Point[] = [];
 
   // leftmost point
@@ -89,6 +91,9 @@ export function* grahamScan(pr: PointRenderer, lr: LineRenderer): Generator {
     }
   });
 
+  // Mark the color
+  point_lowest.updateColor(0xff0000);
+
   // Calculate angle
   const pointMap = new Map<number, Point>();
   for (let point of points) {
@@ -106,6 +111,12 @@ export function* grahamScan(pr: PointRenderer, lr: LineRenderer): Generator {
   // Sort points by angle
   const angleAndPoints = [...pointMap.entries()].sort();
 
+  for (let i = 0; i < angleAndPoints.length; i++) {
+    const r = i / angleAndPoints.length;
+    angleAndPoints[i][1].updateColor(rgb2hex([r, 0, 1 - r]));
+    yield;
+  }
+
   const pointStack = [point_lowest];
   const lineStack: Line[] = [];
 
@@ -116,11 +127,7 @@ export function* grahamScan(pr: PointRenderer, lr: LineRenderer): Generator {
     lineStack.push(newLine);
     while (
       pointStack.length > 1 &&
-      clockwise(
-        pointStack.at(-1),
-        pointStack.at(-2),
-        point,
-      ) >= 0
+      clockwise(pointStack.at(-1), pointStack.at(-2), point) >= 0
     ) {
       // Delete the last two lines
       lr.removeLine(lineStack.pop());

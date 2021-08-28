@@ -1,9 +1,8 @@
 import { Application } from '@pixi/app';
-import { controller, initController } from './components/Controller';
+import { controller, useMenu } from './components/Controller';
 import { LineRenderer } from './components/Line';
 import { PointRenderer } from './components/Point';
 import './style.scss';
-import { giftWrapping, grahamScan } from './utils/algorithms';
 
 const canvasContainer =
   document.querySelector<HTMLDivElement>('#canvas-container');
@@ -12,11 +11,10 @@ const { width, height } = canvasContainer.getBoundingClientRect();
 
 export const playButton = document.querySelector<HTMLButtonElement>('#play');
 export const resetButton = document.querySelector<HTMLButtonElement>('#reset');
+export const randomButton =
+  document.querySelector<HTMLButtonElement>('#random');
 
-const SPEED = 500;
-
-
-initController();
+const { getAnimationSpeed, getAlgorithm, disableMenu } = useMenu();
 
 const app = new Application({
   view: canvas,
@@ -39,24 +37,47 @@ window.addEventListener('resize', () => {
 
 // Start animation
 const animation = async () => {
-  const gen = grahamScan(pointRenderer, lineRenderer);
-  // Lock the button and canvas
+  // Only start animation for at least 3 points
+  if (pointRenderer.points.length < 3) return;
+  const speed = getAnimationSpeed();
+  const convexHull = getAlgorithm();
+
+  const gen = convexHull(pointRenderer, lineRenderer);
+
+  // Lock all button and canvas
   playButton.disabled = true;
+  resetButton.disabled = true;
+  randomButton.disabled = true;
   controller.isPlaying = true;
+  disableMenu(true);
 
   while (!gen.next().done) {
-    await delay(SPEED);
+    await delay(speed);
   }
 
   // Unlock the button and canvas
   playButton.disabled = false;
+  resetButton.disabled = false;
+  randomButton.disabled = false;
   controller.isPlaying = false;
-}
+  disableMenu(false);
+};
 
-const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-
-playButton.addEventListener('click', animation);
-resetButton.addEventListener('click', () => {
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+const reset = () => {
   lineRenderer.clearAll();
   pointRenderer.clearAll();
-})
+};
+
+playButton.addEventListener('click', animation);
+resetButton.addEventListener('click', reset);
+randomButton.addEventListener('click', () => {
+  reset();
+  const n = Math.random() * 80 + 20;
+  const {width, height} = app.view.getBoundingClientRect();
+  for (let i = 0; i < n; i++) {
+    const x = Math.random() * (width - 100) + 50;
+    const y = Math.random() * (height - 100) + 50;
+    pointRenderer.addPoint(x, y);
+  }
+});

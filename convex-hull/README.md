@@ -9,7 +9,8 @@ A visualization of convex hull algorithms
 - [x] Algorithms
   - [x] Gift wrapping
   - [x] Graham's scan
-- [ ] Controller
+- [x] Controller
   - [x] Play algorithm
-  - [ ] Choose algorithm
+  - [x] Choose algorithm
+  - [x] Animation speed
   - [x] Reset canvas

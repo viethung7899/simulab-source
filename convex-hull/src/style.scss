@@ -19,13 +19,14 @@ nav {
     top: 100%;
     right: 0.5rem;
     display: none;
+    min-width: 200px;
   }
 
   #play:hover:enabled {
     @apply bg-green-200 text-green-600;
   }
 
-  #pause:hover:enabled {
+  #random:hover:enabled {
     @apply bg-red-200 text-red-600;
   }
 
@@ -51,5 +52,9 @@ nav {
     p {
       @apply text-sm;
     }
+  }
+
+  select {
+    width: 100%;
   }
 }

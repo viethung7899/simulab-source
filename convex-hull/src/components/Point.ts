@@ -24,14 +24,20 @@ export class Point {
   get y() {
     return this._y;
   }
+
+  updateColor(color: number) {
+    this._shape.tint = color;
+  }
 }
 
 function newGraphic(x: number, y: number) {
   const shape = new Graphics();
-  const color = rgb2hex([Math.random(), 0, Math.random()]);
+  const r = Math.random();
+  const color = rgb2hex([r, 0, 1 - r]);
   shape.x = x;
   shape.y = y;
-  shape.beginFill(color).drawCircle(0, 0, 8).endFill();
+  shape.beginFill(0xffffff).drawCircle(0, 0, 8).endFill();
+  shape.tint = color;
   return shape;
 }
 

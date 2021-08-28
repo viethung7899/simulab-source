@@ -16,24 +16,33 @@
         <button id="play"><i class="fas fa-play"></i></button>
         <button id="reset"><i class="fas fa-undo"></i></button>
         <a id="github" class="regular-button" href="https://github.com/viethung7899/science-lab-source/tree/main" target="_blank"><i class="fab fa-github"></i></a>
+        <button id="random">Randomize</button>
         <button id="menu" class="regular-button"><i class="fas fa-ellipsis-v"></i></button>
         
         <!-- Optional controller -->
         <div class="menu bg-white text-black p-2 rounded-lg">
-            <p class="label">Views</p>
-            
-            <div id="view-angle">
-              <div class="slider-label">
-                <p>Slider</p>
-                <p>180</p>
-              </div>
-              <input type="range" min="0" max="360" step="1" value="180" />
+            <div id="animation-speed">
+              <p class="label">Animation speed</p>
+              <select class="border-gray-300 border-2 rounded-md p-1 focus:outline-none">
+                <option value="slow">Slow</option>
+                <option value="medium" selected>Medium</option>
+                <option value="fast">Fast</option>
+                <option value="very-fast">Very Fast</option>
+              </select>
+            </div>
+            <div id="algorithm" class="mt-2">
+              <p class="label">Algorithms</p>
+              <select class="border-gray-300 border-2 rounded-md p-1 focus:outline-none">
+                <option value="gift-wrapping" selected>Gift Wrapping</option>
+                <option value="graham-scan">Graham's Scan</option>
+              </select>
             </div>
         </div>
       </div>
     </nav>
     <div id="canvas-container" class="flex-1">
       <canvas id="sketch"></canvas>
+    </div>
     </div>
 </body>
 </html>
