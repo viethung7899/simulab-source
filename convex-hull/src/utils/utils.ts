@@ -1,6 +1,6 @@
 import { Point } from '../components/Point';
 
-export function clockwise(pivot: Point, p1: Point, p2: Point) {
+export function dotProduct(pivot: Point, p1: Point, p2: Point) {
   const x1 = p1.x - pivot.x;
   const y1 = p1.y - pivot.y;
   const x2 = p2.x - pivot.x;

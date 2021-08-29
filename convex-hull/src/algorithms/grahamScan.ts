@@ -1,12 +1,10 @@
 import { rgb2hex } from '@pixi/utils';
 import { Line, LineRenderer } from '../components/Line';
-import { Point, PointRenderer } from '../components/Point';
+import { Point } from '../components/Point';
 import { GRAY, GREEN, YELLOW } from '../utils/constant';
-import { clockwise, distanceSq, getAngle } from '../utils/utils';
+import { distanceSq, dotProduct, getAngle } from '../utils/utils';
 
 export function* grahamScan(points: Point[], lr: LineRenderer): Generator {
-  lr.clearAll();
-
   let point_lowest = points[0];
   points.forEach((point) => {
     // Find lowest y-coord. If equals, find the lowest x-coord
@@ -57,7 +55,7 @@ export function* grahamScan(points: Point[], lr: LineRenderer): Generator {
     lineStack.push(newLine);
     while (
       pointStack.length > 1 &&
-      clockwise(pointStack.at(-1), pointStack.at(-2), point) >= 0
+      dotProduct(pointStack.at(-1), pointStack.at(-2), point) >= 0
     ) {
       // Delete the last two lines
       lr.removeLine(lineStack.pop());

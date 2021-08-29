@@ -1,10 +1,9 @@
 import { LineRenderer } from '../components/Line';
-import { Point, PointRenderer } from '../components/Point';
+import { Point } from '../components/Point';
 import { GRAY, GREEN, YELLOW } from '../utils/constant';
-import { clockwise } from '../utils/utils';
+import { dotProduct } from '../utils/utils';
 
 export function* giftWrapping(points: Point[], lr: LineRenderer): Generator {
-  lr.clearAll();
   const hull: Point[] = [];
 
   // leftmost point
@@ -35,7 +34,7 @@ export function* giftWrapping(points: Point[], lr: LineRenderer): Generator {
 
       if (
         endPoint == pointOnHull ||
-        clockwise(pointOnHull, endPoint, point) < 0
+        dotProduct(pointOnHull, endPoint, point) < 0
       ) {
         endPoint = point;
 
@@ -56,6 +55,6 @@ export function* giftWrapping(points: Point[], lr: LineRenderer): Generator {
     yellowLine.updateColor(GREEN);
     yield;
 
-    // find the most counter-clockwise point
+    // find the most counter-dotProduct point
   } while (endPoint != hull[0]);
 }

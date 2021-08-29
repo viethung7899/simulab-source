@@ -39,6 +39,8 @@ window.addEventListener('resize', () => {
 const animation = async () => {
   // Only start animation for at least 3 points
   if (pointRenderer.points.length < 3) return;
+  lineRenderer.clearAll();
+  pointRenderer.reset();
   const speed = getAnimationSpeed();
   const convexHull = getAlgorithm();
 

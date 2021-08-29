@@ -5,12 +5,14 @@ import { controller } from './Controller';
 export class Point {
   private _x: number;
   private _y: number;
+  private _color: number;
   private _shape: Graphics;
 
   constructor(x: number, y: number) {
     this._x = x;
     this._y = y;
     this._shape = newGraphic(x, y);
+    this._color = this._shape.tint;
   }
 
   show(container: Container) {
@@ -27,6 +29,10 @@ export class Point {
 
   updateColor(color: number) {
     this._shape.tint = color;
+  }
+
+  resetColor() {
+    this._shape.tint = this._color;
   }
 }
 
@@ -60,6 +66,10 @@ export class PointRenderer {
     point.show(this._container);
     this.points.push(point);
     return point;
+  }
+
+  reset() {
+    this.points.forEach(p => p.resetColor());
   }
 
   clearAll() {
