@@ -28,7 +28,6 @@ export function* quickHull(points: Point[], lr: LineRenderer): Generator {
 
   yield* findHull(up, [leftmost, rightmost], lr, leftRight);
   yield* findHull(down, [rightmost, leftmost], lr, rightLeft);
-  console.log('DONE');
 }
 
 // Find the hull on the top of oriented line from A to B
@@ -48,7 +47,7 @@ function* findHull(
   const [C, lineCA, lineCB] = yield* findFurthest(points, direction, lr);
   C.updateColor(GREEN);
   yield;
-  
+
   const [regionCA, regionCB] = yield* partitionTriangle(points, [C, A, B]);
 
   yield* findHull(regionCA, [A, C], lr, lineCA);
@@ -89,7 +88,7 @@ function* findFurthest(
       lineCB.updateColor(YELLOW);
     } else {
       lr.removeLine(tmpLineCA);
-      lr.removeLine(tmpLineCB)
+      lr.removeLine(tmpLineCB);
     }
     yield;
   }
@@ -112,8 +111,7 @@ function* partitionLine(
     if (p < 0) {
       point.updateColor(upColor);
       up.push(point);
-    }
-    else if (p > 0) {
+    } else if (p > 0) {
       down.push(point);
       point.updateColor(downColor);
     } else {

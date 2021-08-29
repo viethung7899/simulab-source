@@ -50,6 +50,7 @@ export function* grahamScan(points: Point[], lr: LineRenderer): Generator {
 
   for (let [_, point] of angleAndPoints) {
     lineStack.at(-1)?.updateColor(GREEN);
+    pointStack.at(-1).updateColor(GREEN);
     const newLine = lr.connect(pointStack.at(-1), point);
     newLine.updateColor(YELLOW);
     lineStack.push(newLine);
@@ -57,12 +58,12 @@ export function* grahamScan(points: Point[], lr: LineRenderer): Generator {
       pointStack.length > 1 &&
       dotProduct(pointStack.at(-1), pointStack.at(-2), point) >= 0
     ) {
-      // Delete the last two lines
+      // Delete the last two lines and a point
       lr.removeLine(lineStack.pop());
       lr.removeLine(lineStack.pop());
+      pointStack.pop().updateColor(GRAY);
 
       // Reinsert new line
-      pointStack.pop();
       const newLine = lr.connect(point, pointStack.at(-1));
       newLine.updateColor(YELLOW);
       lineStack.push(newLine);
@@ -73,6 +74,7 @@ export function* grahamScan(points: Point[], lr: LineRenderer): Generator {
   }
 
   lineStack.at(-1)?.updateColor(GREEN);
+  pointStack.at(-1).updateColor(GREEN);
   yield;
   lr.connect(pointStack.at(0), pointStack.at(-1)).updateColor(GREEN);
   yield;

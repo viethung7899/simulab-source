@@ -41,8 +41,8 @@ export function* monoToneChain(points: Point[], lr: LineRenderer): Generator {
       lineStack.at(-1)?.updateColor(GREEN);
       lr.removeLine(lineStack.pop());
       lr.removeLine(lineStack.pop());
-
       pointStack.pop();
+
       const newLine = lr.connect(point, pointStack.at(-1));
       newLine.updateColor(YELLOW);
       lineStack.push(newLine);
