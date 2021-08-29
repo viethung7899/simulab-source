@@ -2,6 +2,7 @@ const menu = document.querySelector<HTMLDivElement>('.menu');
 export const menuButton = document.querySelector<HTMLButtonElement>('#menu');
 import { giftWrapping } from '../algorithms/giftWrapping';
 import { grahamScan } from '../algorithms/grahamScan';
+import { monoToneChain } from '../algorithms/monotoneChain';
 import { quickHull } from '../algorithms/quickHull';
 import { Algorithm } from '../utils/constant';
 
@@ -34,7 +35,8 @@ function initMenu() {
     [
       ['gift-wrapping', giftWrapping],
       ['graham-scan', grahamScan],
-      ['quickhull', quickHull]
+      ['quickhull', quickHull],
+      ['monotone', monoToneChain]
     ] as [string, Algorithm][]
   ).forEach(([key, value]) => {
     controller.algorithm.set(key, value);
