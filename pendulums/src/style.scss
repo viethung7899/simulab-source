@@ -17,19 +17,23 @@ nav {
     display: none;
   }
 
-  #play:hover {
+  button:disabled {
+    @apply text-gray-600;
+  }
+
+  #play:hover:enabled {
     @apply bg-green-200 text-green-600;
   }
 
-  #pause:hover {
+  #pause:hover:enabled {
     @apply bg-red-200 text-red-600;
   }
 
-  #reset:hover {
+  #reset:hover:enabled {
     @apply bg-yellow-200 text-yellow-600;
   }
 
-  .regular-button:hover {
+  .regular-button:hover:enabled {
     @apply bg-gray-200 text-black;
   }
 }

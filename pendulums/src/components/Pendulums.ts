@@ -16,15 +16,14 @@ export class Pendulums {
     this._balls = [];
 
     this._init();
-    this.addBall();
-    this.addBall();
-    this.addBall();
-    this.addBall();
-    this.addBall();
   }
 
   get container() {
     return this._container;
+  }
+
+  get balls() {
+    return this._balls;
   }
 
   private _init() {

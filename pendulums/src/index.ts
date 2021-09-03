@@ -9,8 +9,6 @@ const canvasContainer =
 const canvas = document.querySelector<HTMLCanvasElement>('#sketch');
 const { width, height } = canvasContainer.getBoundingClientRect();
 
-initController();
-
 const app = new Application({
   view: canvas,
   width,
@@ -23,9 +21,13 @@ const app = new Application({
 // Dummy shape
 const shape = new Graphics();
 
+// Pendulum system
 const pendulums = new Pendulums();
 app.stage.addChild(pendulums.container);
 pendulums.updateOnResize(app.renderer.screen);
+
+// Add controller for pendulum
+initController(pendulums);
 
 window.addEventListener('resize', () => {
   // Resize the canvas
