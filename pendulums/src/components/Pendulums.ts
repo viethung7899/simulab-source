@@ -3,12 +3,15 @@ import { Graphics } from '@pixi/graphics';
 import { Rectangle } from '@pixi/math';
 import Ball from './Ball';
 
+const FACTOR_LENGTH = 100;
+
 export class Pendulums {
   private _container: Container;
   private _strings: Graphics;
   private _balls: Ball[];
-  
-  public gravity = 10;
+  private _trails: Graphics[][];
+
+  public gravity = 5;
 
   constructor() {
     this._container = new Container();
@@ -16,6 +19,7 @@ export class Pendulums {
     this._strings = new Graphics();
 
     this._balls = [];
+    this._trails = [];
 
     this._init();
   }
@@ -30,7 +34,7 @@ export class Pendulums {
 
   private _init() {
     this._container.addChild(this._strings);
-    
+
     // Draw anchor
     const anchor = new Graphics()
       .beginFill(0xaaaaaa)
@@ -52,6 +56,7 @@ export class Pendulums {
   addBall() {
     const ball = new Ball();
     this._balls.push(ball);
+    this._trails.push([]);
     this._container.addChild(ball.graphic);
     this.update();
   }
@@ -59,8 +64,8 @@ export class Pendulums {
   // Remove the last ball from the display
   removeBall() {
     if (this._balls.length > 0) {
-      const ball = this._balls.pop();
-      this._container.removeChild(ball.graphic);
+      // Remove the ball and the trials
+      this._container.removeChild(this._balls.pop().graphic, ...this._trails.pop());
       this._updateString();
     }
   }
@@ -70,8 +75,8 @@ export class Pendulums {
     let x = 0,
       y = 0;
     for (const ball of this._balls) {
-      x += ball.length * Math.sin(ball.angle);
-      y += ball.length * Math.cos(ball.angle);
+      x += ball.length * FACTOR_LENGTH * Math.sin(ball.angle);
+      y += ball.length * FACTOR_LENGTH * Math.cos(ball.angle);
       ball.updatePosition(x, y);
     }
   }
@@ -83,8 +88,8 @@ export class Pendulums {
     let x = 0,
       y = 0;
     for (const ball of this._balls) {
-      x += ball.length * Math.sin(ball.angle);
-      y += ball.length * Math.cos(ball.angle);
+      x += ball.length * FACTOR_LENGTH * Math.sin(ball.angle);
+      y += ball.length * FACTOR_LENGTH * Math.cos(ball.angle);
       this._strings.lineTo(x, y);
     }
   }
@@ -92,5 +97,19 @@ export class Pendulums {
   update() {
     this._updateBall();
     this._updateString();
+  }
+
+  updateTrail() {
+    this._trails.forEach((trail, i) => {
+      // Keep the lastest 100 dots and dim all of them
+      while (trail.length > 500) this.container.removeChild(trail.shift());
+      trail.forEach((dot) => (dot.alpha *= 0.99));
+      
+      // Add current position of the ball
+      const {tint, x, y} = this.balls[i].graphic;
+      const newDot = new Graphics().beginFill(tint, 1).drawCircle(x, y, 2).endFill();
+      trail.push(newDot);
+      this.container.addChild(newDot);
+    });
   }
 }

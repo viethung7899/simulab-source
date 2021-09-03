@@ -13,8 +13,14 @@ nav {
   .menu {
     position: absolute;
     top: 100%;
+    margin-top: 0.5rem;
     right: 0.5rem;
-    display: none;
+    opacity: 20%;
+    transition: opacity 0.5s ease-in-out;
+
+    &:hover {
+      opacity: 100%;
+    }
   }
 
   button:disabled {
@@ -43,13 +49,22 @@ nav {
     @apply font-semibold;
   }
 
-  min-width: 150px;
+  min-width: 250px;
 
-  .slider-label {
+  .sub-label {
     @apply flex justify-between items-center;
 
     p {
       @apply text-sm;
     }
+  }
+
+  input[type="range"] {
+    width: 100%;
+  }
+
+  input[type="number"] {
+    width: 8ch;
+    @apply border-gray-300 border-2 rounded-md p-1 focus:outline-none;
   }
 }

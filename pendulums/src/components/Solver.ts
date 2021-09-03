@@ -96,6 +96,7 @@ export class Solver {
     ));
 
     this.pendulums.update();
+    this.pendulums.updateTrail();
   }
 
   update() {

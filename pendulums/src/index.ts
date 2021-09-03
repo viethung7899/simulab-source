@@ -1,12 +1,13 @@
 import { Application } from '@pixi/app';
 import { Graphics } from 'pixi.js';
 import { initController, playButton } from './components/Controller';
+import { initMenu } from './components/Menu';
 import { Pendulums } from './components/Pendulums';
 import { Solver } from './components/Solver';
 import './style.scss';
 
 // Constant
-const DELTA = 1 / 10;
+const DELTA = 1 / 30;
 
 const canvasContainer =
   document.querySelector<HTMLDivElement>('#canvas-container');
@@ -37,6 +38,7 @@ const solver = new Solver(pendulums);
 
 // Add controller for pendulum
 initController(pendulums, solver);
+initMenu(pendulums);
 
 
 console.log(pendulums.balls);
