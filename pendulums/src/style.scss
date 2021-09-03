@@ -66,5 +66,9 @@ nav {
   input[type="number"] {
     width: 8ch;
     @apply border-gray-300 border-2 rounded-md p-1 focus:outline-none;
+
+    &:disabled {
+      @apply border-gray-600  bg-gray-300;
+    }
   }
 }

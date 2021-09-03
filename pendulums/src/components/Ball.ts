@@ -1,6 +1,9 @@
 import { Container } from '@pixi/display';
 import { Graphics } from '@pixi/graphics';
 import { rgb2hex } from '@pixi/utils';
+import { playButton } from './Controller';
+import { EventEmitter } from '@pixi/utils';
+import { BallMenu } from './Menu';
 
 const MULT_MASS = 10;
 
@@ -10,14 +13,31 @@ export default class Ball {
   public length = 2;
   public mass = 1;
   private _graphic: Graphics;
-  private _tint: number;
+  readonly color = rgb2hex([Math.random(), Math.random(), Math.random()]);
+  private _selected: boolean = false;
+
+  private _eventEmitter: EventEmitter
 
   constructor() {
     this.angle = Math.PI / 2;
     this.angularVelocity = 0;
-    this._tint = rgb2hex([Math.random(), Math.random(), Math.random()]);
     this._graphic = new Graphics();
     this.updateGraphics();
+    
+    this._graphic.interactive = true;
+  }
+  
+  bindEvent(menu: BallMenu) {
+    this._eventEmitter = menu.listener;
+    this._graphic.on('pointerdown', this._handleClick(this));
+  }
+
+  private _handleClick(ball: Ball) {
+    return () => {
+      if (playButton.id === 'play') {
+        this._eventEmitter.emit('choose', ball);
+      }
+    }
   }
 
   show(container: Container) {
@@ -39,8 +59,14 @@ export default class Ball {
   }
 
   updateGraphics() {
-    this._graphic.clear().beginFill(0xffffff).drawCircle(0, 0, MULT_MASS * this.mass).endFill();
-    this._graphic.tint = this._tint;
+    this._graphic.clear();
+    if (this._selected) this.graphic.lineStyle(3, 0xffffff);
+    this.graphic.beginFill(this.color).drawCircle(0, 0, MULT_MASS * this.mass).endFill();
+  }
+
+  setSelected(selected: boolean) {
+    this._selected = selected;
+    this.updateGraphics();
   }
 
   get graphic() {

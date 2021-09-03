@@ -2,14 +2,17 @@ import { Container } from '@pixi/display';
 import { Graphics } from '@pixi/graphics';
 import { Rectangle } from '@pixi/math';
 import Ball from './Ball';
+import { BallMenu } from './Menu';
 
 const FACTOR_LENGTH = 100;
 
-export class Pendulums {
+export default class Pendulums {
   private _container: Container;
   private _strings: Graphics;
   private _balls: Ball[];
   private _trails: Graphics[][];
+
+  private _menu: BallMenu;
 
   public gravity = 5;
 
@@ -22,6 +25,15 @@ export class Pendulums {
     this._trails = [];
 
     this._init();
+
+    const menu = new BallMenu(this);
+    this._menu = menu;
+    
+    // Add event for disable menu
+    window.addEventListener('click', e => {
+      e.preventDefault();
+      console.log('CLICKED');
+    })
   }
 
   get container() {
@@ -42,8 +54,6 @@ export class Pendulums {
       .endFill();
     console.log(anchor);
     this._container.addChild(anchor);
-
-    // Draw string
   }
 
   updateOnResize(screen: Rectangle) {
@@ -55,6 +65,7 @@ export class Pendulums {
   // Add a ball to the system
   addBall() {
     const ball = new Ball();
+    ball.bindEvent(this._menu);
     this._balls.push(ball);
     this._trails.push([]);
     this._container.addChild(ball.graphic);
@@ -65,7 +76,10 @@ export class Pendulums {
   removeBall() {
     if (this._balls.length > 0) {
       // Remove the ball and the trials
-      this._container.removeChild(this._balls.pop().graphic, ...this._trails.pop());
+      this._container.removeChild(
+        this._balls.pop().graphic,
+        ...this._trails.pop(),
+      );
       this._updateString();
     }
   }
@@ -104,10 +118,16 @@ export class Pendulums {
       // Keep the lastest 100 dots and dim all of them
       while (trail.length > 500) this.container.removeChild(trail.shift());
       trail.forEach((dot) => (dot.alpha *= 0.99));
-      
+
       // Add current position of the ball
-      const {tint, x, y} = this.balls[i].graphic;
-      const newDot = new Graphics().beginFill(tint, 1).drawCircle(x, y, 2).endFill();
+      const {
+        color,
+        graphic: { x, y },
+      } = this.balls[i];
+      const newDot = new Graphics()
+        .beginFill(color, 1)
+        .drawCircle(x, y, 2)
+        .endFill();
       trail.push(newDot);
       this.container.addChild(newDot);
     });

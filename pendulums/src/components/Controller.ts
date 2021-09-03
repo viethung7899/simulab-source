@@ -1,5 +1,5 @@
-import { Pendulums } from './Pendulums';
-import { Solver } from './Solver';
+import Pendulums from './Pendulums';
+import Solver from './Solver';
 
 export const playButton = document.querySelector<HTMLButtonElement>('#play');
 const resetButton = document.querySelector<HTMLButtonElement>('#reset');

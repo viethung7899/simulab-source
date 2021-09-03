@@ -1,8 +1,7 @@
 import { lusolve, transpose } from 'mathjs';
-import Ball from './Ball';
-import { Pendulums } from './Pendulums';
+import Pendulums from './Pendulums';
 
-export class Solver {
+export default class Solver {
   private pendulums: Pendulums;
   private accumulateMass: number[];
   private M: number[][]; // matrix
@@ -57,11 +56,7 @@ export class Solver {
 
   // Solve the linear system Ax = b
   // Return [theta', omegas'] * dT
-  private _solve(
-    thetas: number[],
-    omegas: number[],
-    dT: number,
-  ) {
+  private _solve(thetas: number[], omegas: number[], dT: number) {
     const A = this._matrixA(thetas);
     const b = this._matrixB(thetas, omegas);
     const alphas = (transpose(lusolve(A, b)) as number[][])[0];
@@ -86,14 +81,28 @@ export class Solver {
 
     // Runge-Kutta method
     const [a, a_] = this._solve(thetas, omegas, dT);
-    const [b, b_] = this._solve(this._add(thetas, a, 0.5), this._add(omegas, a_, 0.5), dT);
-    const [c, c_] = this._solve(this._add(thetas, b, 0.5), this._add(omegas, b_, 0.5), dT);
-    const [d, d_] = this._solve(this._add(thetas, c), this._add(omegas, c_), dT);
+    const [b, b_] = this._solve(
+      this._add(thetas, a, 0.5),
+      this._add(omegas, a_, 0.5),
+      dT,
+    );
+    const [c, c_] = this._solve(
+      this._add(thetas, b, 0.5),
+      this._add(omegas, b_, 0.5),
+      dT,
+    );
+    const [d, d_] = this._solve(
+      this._add(thetas, c),
+      this._add(omegas, c_),
+      dT,
+    );
 
-    balls.forEach((ball, i) => ball.updatePhase(
-      (a[i] + 2 * b[i] + 2 * c[i] + d[i]) / 6,
-      (a_[i] + 2 * b_[i] + 2 * c_[i] + d_[i]) / 6,
-    ));
+    balls.forEach((ball, i) =>
+      ball.updatePhase(
+        (a[i] + 2 * b[i] + 2 * c[i] + d[i]) / 6,
+        (a_[i] + 2 * b_[i] + 2 * c_[i] + d_[i]) / 6,
+      ),
+    );
 
     this.pendulums.update();
     this.pendulums.updateTrail();
