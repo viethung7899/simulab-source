@@ -7,6 +7,8 @@ export class Pendulums {
   private _container: Container;
   private _strings: Graphics;
   private _balls: Ball[];
+  
+  public gravity = 10;
 
   constructor() {
     this._container = new Container();

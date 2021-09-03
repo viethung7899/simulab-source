@@ -1,4 +1,5 @@
-import { Pendulums } from "./Pendulums";
+import { Pendulums } from './Pendulums';
+import { Solver } from './Solver';
 
 export const playButton = document.querySelector<HTMLButtonElement>('#play');
 const resetButton = document.querySelector<HTMLButtonElement>('#reset');
@@ -7,6 +8,9 @@ const plusButton = document.querySelector<HTMLButtonElement>('#plus');
 const minusButton = document.querySelector<HTMLButtonElement>('#minus');
 const numberLabel = document.querySelector<HTMLParagraphElement>('#number');
 
+const playIcon = '<i class="fas fa-play"></i>';
+const pauseIcon = '<i class="fas fa-pause"></i>';
+
 const MAX_PENDULUM = 8;
 
 function updateButtonActivities(n: number) {
@@ -14,7 +18,7 @@ function updateButtonActivities(n: number) {
   minusButton.disabled = false;
   playButton.disabled = false;
   resetButton.disabled = false;
-  
+
   // Update plus and minus buttons activity
   if (n <= 0) minusButton.disabled = true;
   if (n >= MAX_PENDULUM) plusButton.disabled = true;
@@ -43,15 +47,25 @@ function handleMinusButton(pendulums: Pendulums) {
 export function togglePlayButton() {
   const isPlaying = playButton.id === 'play';
   playButton.id = isPlaying ? 'pause' : 'play';
+  playButton.innerHTML = isPlaying ? pauseIcon : playIcon;
 }
 
-export function initController(pendulums: Pendulums) {
+export function initController(pendulums: Pendulums, solver: Solver) {
   // Init button
   updateButtonActivities(pendulums.balls.length);
 
   // Handle add and remove event
-  plusButton.addEventListener('click', () => handlePlusButton(pendulums));
-  minusButton.addEventListener('click', () => handleMinusButton(pendulums));
+  plusButton.addEventListener('click', () => {
+    handlePlusButton(pendulums);
+    solver.update();
+  });
+  minusButton.addEventListener('click', () => {
+    handleMinusButton(pendulums);
+    solver.update();
+  });
 
-  // Handle reset event
+  // Handle play button
+  playButton.addEventListener('click', () => {
+    togglePlayButton();
+  });
 }

@@ -15,7 +15,7 @@ A visualization of chaos behaviour in the system of muliple pendulums
   - [ ] Play
   - [ ] Pause
   - [ ] Reset
-- [x] Controller
+- [ ] Controller
   - [x] Add balls
   - [x] Remove balls
 - [ ] Interactive

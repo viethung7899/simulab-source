@@ -5,7 +5,7 @@ import { rgb2hex } from '@pixi/utils';
 export default class Ball {
   public angle: number;
   public angularVelocity: number;
-  public length = 100;
+  public length = 150;
   public mass = 1;
   private _graphic: Graphics;
 
@@ -21,6 +21,11 @@ export default class Ball {
 
   delete(container: Container) {
     container.removeChild(this._graphic);
+  }
+
+  updatePhase(angleChange: number, velocityChange: number) {
+    this.angle += angleChange;
+    this.angularVelocity += velocityChange;
   }
 
   updatePosition(x: number, y: number) {
