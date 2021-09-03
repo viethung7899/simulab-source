@@ -4,10 +4,10 @@ A visualization of chaos behaviour in the system of muliple pendulums
 
 ## To do list
 
-- [ ] Graphics
-  - [ ] Balls
-  - [ ] Strings
-  - [ ] Resize event
+- [x] Graphics
+  - [x] Balls
+  - [x] Strings
+  - [x] Resize event
 - [ ] Solver
   - [ ] Create linear system
   - [ ] Runge-Kutta method

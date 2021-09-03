@@ -1,6 +1,7 @@
 import { Application } from '@pixi/app';
 import { Graphics } from 'pixi.js';
 import { initController } from './components/Controller';
+import { Pendulums } from './components/Pendulums';
 import './style.scss';
 
 const canvasContainer =
@@ -19,17 +20,16 @@ const app = new Application({
   backgroundColor: 0x333333,
 });
 
-// Sample shape
+// Dummy shape
 const shape = new Graphics();
-shape.beginFill(0x00ffff).drawCircle(0, 0, 50).endFill();
-shape.x = 400;
-shape.y = 400;
-app.stage.addChild(shape);
+
+const pendulums = new Pendulums();
+app.stage.addChild(pendulums.container);
+pendulums.updateOnResize(app.renderer.screen);
 
 window.addEventListener('resize', () => {
   // Resize the canvas
   const { width, height } = canvasContainer.getBoundingClientRect();
   app.renderer.resize(width, height);
+  pendulums.updateOnResize(app.renderer.screen);
 });
-
-console.log(app);
