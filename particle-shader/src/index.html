@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/7e04ce6a14.js" crossorigin="anonymous"></script>
+  <title>Particle shader</title>
+</head>
+<body class="text-white">
+  <div class="app flex flex-col w-screen h-screen">
+    <nav class="flex justify-between p-2 bg-black">
+      <div class="text-2xl font-bold">Particle shader</div>
+      <div class="flex items-center gap-x-2">
+        <!-- Buttons -->
+        <button id="play"><i class="fas fa-play"></i></button>
+        <button id="reset"><i class="fas fa-undo"></i></button>
+        <a id="github" class="regular-button" href="https://github.com/viethung7899/science-lab-source/tree/main/particle-shader" target="_blank"><i class="fab fa-github"></i></a>
+        <button id="menu" class="regular-button"><i class="fas fa-ellipsis-v"></i></button>
+        
+        <!-- Optional controller -->
+        <div class="menu bg-white text-black p-2 rounded-lg">
+            <p class="label">Views</p>
+            
+            <div id="view-angle">
+              <div class="slider-label">
+                <p>Slider</p>
+                <p>180</p>
+              </div>
+              <input type="range" min="0" max="360" step="1" value="180" />
+            </div>
+        </div>
+      </div>
+    </nav>
+    <div id="canvas-container" class="flex-1">
+      <canvas id="sketch"></canvas>
+    </div>
+</body>
+</html>
