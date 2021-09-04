@@ -29,5 +29,3 @@ window.onresize = () => {
   app.renderer.resize(width, height);
   maurer.update();
 };
-
-console.log(app);
