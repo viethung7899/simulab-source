@@ -43,7 +43,7 @@ nav {
   }
 
   input[type='number'] {
-    @apply border-gray-300 border-2 rounded-md p-1 focus:outline-none bg-transparent text-right;
+    @apply border-gray-300 border-2 rounded-md p-1 focus:outline-none bg-transparent;
     width: 6ch;
   }
 }

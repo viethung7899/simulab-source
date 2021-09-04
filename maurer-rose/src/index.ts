@@ -1,6 +1,5 @@
-import { Application } from '@pixi/app';
-import { Graphics } from '@pixi/graphics';
-import { initController } from './components/Controller';
+import { Application } from 'pixi.js';
+import { connectControllerToCanvas, Maurer } from './Maurer';
 import './style.scss';
 
 const canvasContainer =
@@ -8,26 +7,27 @@ const canvasContainer =
 const canvas = document.querySelector<HTMLCanvasElement>('#sketch');
 const { width, height } = canvasContainer.getBoundingClientRect();
 
-initController();
-
 const app = new Application({
   view: canvas,
   width,
   height,
   resolution: window.devicePixelRatio,
   autoDensity: true,
+  antialias: true,
   backgroundColor: 0x333333,
 });
 
-// Sample shape
-const shape = new Graphics();
-shape.beginFill(0xffff00).drawCircle(400, 400, 100).endFill();
-app.stage.addChild(shape);
+const maurer = new Maurer();
+app.stage.addChild(maurer.graphic);
+maurer.setBound(app.renderer.screen);
+connectControllerToCanvas(maurer);
+maurer.update();
 
-window.addEventListener('resize', () => {
+window.onresize = () => {
   // Resize the canvas
   const { width, height } = canvasContainer.getBoundingClientRect();
   app.renderer.resize(width, height);
-});
+  maurer.update();
+};
 
 console.log(app);
