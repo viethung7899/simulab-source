@@ -1,5 +1,7 @@
 import { Application } from 'pixi.js';
-import { initController } from './components/Controller';
+import { connectController, isPlaying } from './components/Controller';
+import { connectMenu } from './components/Menu';
+import { System } from './components/System';
 import './style.scss';
 
 const canvasContainer =
@@ -7,22 +9,31 @@ const canvasContainer =
 const canvas = document.querySelector<HTMLCanvasElement>('#sketch');
 const { width, height } = canvasContainer.getBoundingClientRect();
 
-initController();
-
 const app = new Application({
   view: canvas,
   width,
   height,
   resolution: window.devicePixelRatio,
   autoDensity: true,
+  antialias: true,
   backgroundColor: 0x333333,
 });
+
+const system = new System();
+app.stage.addChild(system.container);
+system.setRenderer(app.renderer);
+
+connectMenu(system);
+connectController(system);
 
 window.addEventListener('resize', () => {
   // Resize the canvas
   const { width, height } = canvasContainer.getBoundingClientRect();
   app.renderer.resize(width, height);
-  console.log(width, height);
 });
 
-console.log(app);
+const animation = () => {
+  if (isPlaying()) system.update();
+};
+
+app.ticker.add(animation);

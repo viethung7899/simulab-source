@@ -15,13 +15,13 @@ An experiment with shader in the system of particles
   - [x] Play/Pause button
   - [x] Reset button
   - [x] Inputs
-- [ ] Graphics
-  - [ ] Particles
-  - [ ] Move
-  - [ ] Edge collision
-- [ ] Animation Control
-  - [ ] Play / pause
-  - [ ] Reset
+- [x] Graphics
+  - [x] Particles
+  - [x] Move
+  - [x] Edge collision
+- [x] Animation Control
+  - [x] Play / pause
+  - [x] Reset
 - [ ] General control
   - [ ] Number of particles
   - [ ] Filter selection
