@@ -28,12 +28,6 @@ export default class Pendulums {
 
     const menu = new BallMenu(this);
     this._menu = menu;
-    
-    // Add event for disable menu
-    window.addEventListener('click', e => {
-      e.preventDefault();
-      console.log('CLICKED');
-    })
   }
 
   get container() {
@@ -42,6 +36,10 @@ export default class Pendulums {
 
   get balls() {
     return this._balls;
+  }
+
+  get menu() {
+    return this._menu;
   }
 
   private _init() {

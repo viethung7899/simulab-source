@@ -56,16 +56,19 @@ export function initController(pendulums: Pendulums, solver: Solver) {
 
   // Handle add and remove event
   plusButton.addEventListener('click', () => {
+    pendulums.menu.disable();
     handlePlusButton(pendulums);
     solver.update();
   });
   minusButton.addEventListener('click', () => {
+    pendulums.menu.disable();
     handleMinusButton(pendulums);
     solver.update();
   });
 
   // Handle play button
   playButton.addEventListener('click', () => {
+    pendulums.menu.disable();
     togglePlayButton();
   });
 }

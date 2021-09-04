@@ -1,7 +1,7 @@
-import { DEG_TO_RAD } from '@pixi/math';
+import { DEG_TO_RAD, RAD_TO_DEG } from '@pixi/math';
+import { EventEmitter } from '@pixi/utils';
 import Ball from './Ball';
 import Pendulums from './Pendulums';
-import { EventEmitter } from '@pixi/utils';
 
 // Gravity
 const gravityDisplay =
@@ -22,15 +22,13 @@ export function initMenu(pendulums: Pendulums) {
 // Ball menu
 const ballDetail = document.querySelector<HTMLDivElement>('.ball-menu');
 const angleInput = ballDetail.querySelector<HTMLInputElement>('#angle input');
-const velocityInput =
-  ballDetail.querySelector<HTMLInputElement>('#velocity input');
 const lengthInput = ballDetail.querySelector<HTMLInputElement>('#length input');
 const massInput = ballDetail.querySelector<HTMLInputElement>('#mass input');
 
 export class BallMenu {
   private _selectedBall: Ball;
   private _pendulum: Pendulums;
-  readonly listener: EventEmitter
+  readonly listener: EventEmitter;
 
   constructor(pendulums: Pendulums) {
     this._pendulum = pendulums;
@@ -38,7 +36,6 @@ export class BallMenu {
 
     // Event listeners for input
     angleInput.addEventListener('input', this._handleAngle.bind(this));
-    velocityInput.addEventListener('input', this._handleVelocity.bind(this));
     lengthInput.addEventListener('input', this._handleLength.bind(this));
     massInput.addEventListener('input', this._handleMass.bind(this));
 
@@ -56,13 +53,11 @@ export class BallMenu {
 
     // Disable all input
     angleInput.disabled = true;
-    velocityInput.disabled = true;
     lengthInput.disabled = true;
     massInput.disabled = true;
 
     // Hide all input
     angleInput.value = '';
-    velocityInput.value = '';
     lengthInput.value = '';
     massInput.value = '';
   }
@@ -74,29 +69,20 @@ export class BallMenu {
 
     // Enable all input
     angleInput.disabled = false;
-    velocityInput.disabled = false;
     lengthInput.disabled = false;
     massInput.disabled = false;
 
     // Show all input
-    angleInput.value = ball.angle.toString();
-    velocityInput.value = ball.angularVelocity.toString();
+    angleInput.value = (RAD_TO_DEG * ball.angle).toString();
     lengthInput.value = ball.length.toString();
     massInput.value = ball.mass.toString();
   }
 
   private _handleAngle() {
-    const {_selectedBall, _pendulum} = this;
+    const { _selectedBall, _pendulum } = this;
     if (!this._selectedBall) return;
     this._selectedBall.angle = DEG_TO_RAD * +angleInput.value;
     this._pendulum.update();
-  }
-
-  private _handleVelocity() {
-    const {_selectedBall} = this;
-
-    if (!this._selectedBall) return;
-    this._selectedBall.angularVelocity = +velocityInput.value;
   }
 
   private _handleLength() {
