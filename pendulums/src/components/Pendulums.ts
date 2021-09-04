@@ -86,7 +86,7 @@ export default class Pendulums {
     this.balls.forEach((ball, i) => {
       // Reset initial condition
       ball.angle = Math.PI / 2;
-      
+
       // Reset the trial
       this._container.removeChild(...this._trails[i]);
       this._trails[i] = [];

@@ -1,9 +1,9 @@
 import { Container } from '@pixi/display';
 import { Graphics } from '@pixi/graphics';
+import { InteractionEvent } from '@pixi/interaction';
 import { EventEmitter, rgb2hex } from '@pixi/utils';
 import { playButton } from './Controller';
 import { BallMenu } from './Menu';
-import { InteractionEvent } from '@pixi/interaction';
 
 const MULT_MASS = 10;
 
@@ -50,7 +50,8 @@ export default class Ball {
   }
 
   updatePhase(angleChange: number, velocityChange: number) {
-    this.angle = (this.angle + angleChange + 3 * Math.PI) % (2 * Math.PI) - Math.PI;
+    this.angle =
+      ((this.angle + angleChange + 3 * Math.PI) % (2 * Math.PI)) - Math.PI;
     this.angularVelocity += velocityChange;
   }
 

@@ -49,9 +49,8 @@ window.addEventListener('resize', () => {
   pendulums.updateOnResize(app.renderer.screen);
 });
 
-
 // Animation
 app.ticker.add(() => {
   if (playButton.id === 'play') return;
   solver.step(DELTA);
-})
+});

@@ -59,11 +59,11 @@ nav {
     }
   }
 
-  input[type="range"] {
+  input[type='range'] {
     width: 100%;
   }
 
-  input[type="number"] {
+  input[type='number'] {
     width: 8ch;
     @apply border-gray-300 border-2 rounded-md p-1 focus:outline-none;
 
