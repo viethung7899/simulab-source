@@ -12,12 +12,12 @@ A visualization of chaos behaviour in the system of muliple pendulums
 - [x] Solver
   - [x] Create linear system
   - [x] Runge-Kutta method
-- [ ] Animation
+- [x] Animation
   - [x] Play
   - [x] Pause
-  - [ ] Reset
-- [ ] Controller
+  - [x] Reset
+- [x] Controller
   - [x] Add balls
   - [x] Remove balls
-- [ ] Interactive
-  - [ ] Click ball for more information
+- [x] Interactive
+  - [x] Click ball for more information

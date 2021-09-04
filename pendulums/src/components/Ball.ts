@@ -38,7 +38,6 @@ export default class Ball {
       if (playButton.id === 'play') {
         this._eventEmitter.emit('choose', ball);
       }
-      console.log('CK')
     };
   }
 

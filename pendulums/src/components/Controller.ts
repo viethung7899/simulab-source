@@ -71,4 +71,10 @@ export function initController(pendulums: Pendulums, solver: Solver) {
     pendulums.menu.disable();
     togglePlayButton();
   });
+
+  // Handle reset button
+  resetButton.addEventListener('click', () => {
+    pendulums.menu.disable();
+    pendulums.reset();
+  });
 }
