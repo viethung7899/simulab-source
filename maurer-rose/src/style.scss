@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+nav {
+  position: relative;
+
+  button,
+  a {
+    @apply focus:outline-none rounded-md px-2 text-xl;
+  }
+
+  .menu {
+    position: absolute;
+    top: 100%;
+    right: 0.5rem;
+    display: none;
+  }
+}
+
+.menu {
+  .label {
+    @apply font-semibold;
+  }
+
+  min-width: 150px;
+
+  .slider-label {
+    @apply flex justify-between items-center;
+
+    p {
+      @apply text-sm;
+    }
+  }
+}
+
+/* Style the number input */
+.number-input {
+  @apply flex flex-row justify-between items-center space-x-2;
+
+  p {
+    @apply text-xl;
+  }
+
+  input[type='number'] {
+    @apply border-gray-300 border-2 rounded-md p-1 focus:outline-none bg-transparent text-right;
+    width: 6ch;
+  }
+}
