@@ -11,10 +11,33 @@ nav {
   }
 
   .menu {
+    min-width: 200px;
     position: absolute;
     top: 100%;
     right: 0.5rem;
-    display: none;
+    margin-top: 0.5rem;
+    transition: opacity 0.25s linear;
+    opacity: 20%;
+
+    &:hover {
+      opacity: 100%;
+    }
+
+    .label {
+      @apply font-semibold;
+    }
+
+    input, select {
+      @apply border-gray-300 border-2 rounded-md p-1 focus:outline-none;
+    }
+
+    input[type="number"] {
+      width: 6ch;
+    }
+
+    select {
+      width: 100%;
+    }
   }
 
   #play:hover {
@@ -34,18 +57,7 @@ nav {
   }
 }
 
-.menu {
-  .label {
-    @apply font-semibold;
-  }
-
-  min-width: 150px;
-
-  .slider-label {
-    @apply flex justify-between items-center;
-
-    p {
-      @apply text-sm;
-    }
-  }
+#canvas-container {
+  min-width: 0; /* Override for dynamic canvas size upon resizing */
+  min-height: 0; 
 }

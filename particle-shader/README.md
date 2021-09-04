@@ -10,11 +10,11 @@ An experiment with shader in the system of particles
 
 ## Todo
 
-- [ ] UI
-  - [ ] Canvas
-  - [ ] Play/Pause button
-  - [ ] Reset button
-  - [ ] Inputs
+- [x] UI
+  - [x] Canvas
+  - [x] Play/Pause button
+  - [x] Reset button
+  - [x] Inputs
 - [ ] Graphics
   - [ ] Particles
   - [ ] Move
