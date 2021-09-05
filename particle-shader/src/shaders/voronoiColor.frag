@@ -2,7 +2,7 @@ precision mediump float;
 
 varying vec2 uv;
 
-const int MAX_COUNT = 32;
+const int MAX_COUNT = 50;
 
 uniform vec2 points[MAX_COUNT];
 uniform vec3 colors[MAX_COUNT];

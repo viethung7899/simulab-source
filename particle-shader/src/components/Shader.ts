@@ -1,11 +1,12 @@
 import { Filter } from '@pixi/core';
+import base from '../shaders/base.vert';
+import metaballGray from '../shaders/metaballGray.frag';
+import metaballHue from '../shaders/metaballHue.frag';
+import voronoiColor from '../shaders/voronoiColor.frag';
+import voronoiGray from '../shaders/voronoiGray.frag';
 import { System } from './System';
 
-import base from '../shaders/base.vert';
-import voronoiGray from '../shaders/voronoiGray.frag';
-import voronoiColor from '../shaders/voronoiColor.frag';
-
-const MAX_COUNT = 32;
+const MAX_COUNT = 50;
 
 const filters = new Map<string, Filter>();
 const uniforms = {
@@ -19,15 +20,17 @@ export function useShader(system: System) {
   const updateUniforms = () => {
     uniforms.size = system.particles.length;
     system.particles.forEach((particle, i) => {
-      uniforms.points[2*i] = particle.position.x;
-      uniforms.points[2*i+1] = particle.position.y;
-    })
+      uniforms.points[2 * i] = particle.position.x;
+      uniforms.points[2 * i + 1] = particle.position.y;
+    });
     uniforms.dimension[0] = system.filterArea.width;
     uniforms.dimension[1] = system.filterArea.height;
   };
 
   filters.set('voronoi-gray', new Filter(base, voronoiGray, uniforms));
   filters.set('voronoi-color', new Filter(base, voronoiColor, uniforms));
+  filters.set('metaball-gray', new Filter(base, metaballGray, uniforms));
+  filters.set('metaball-hue', new Filter(base, metaballHue, uniforms));
 
   updateUniforms();
 

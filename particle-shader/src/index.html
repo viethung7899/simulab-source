@@ -33,7 +33,14 @@
               class="flex flex-row items-center justify-between"
             >
               <p class="label">Number of particles</p>
-              <input type="number" name="numbers" onkeydown="return false" min="1" max="32" value="1" />
+              <input
+                type="number"
+                name="numbers"
+                onkeydown="return false"
+                min="1"
+                max="50"
+                value="1"
+              />
             </div>
             <div id="filter">
               <p class="label mb-1">Filter</p>
@@ -42,6 +49,12 @@
                   Grayscale Gradient Voronoi
                 </option>
                 <option value="voronoi-color">Color Region Voronoi</option>
+                <option value="metaball-gray">
+                  Grayscale Gradient Metaballs
+                </option>
+                <option value="metaball-hue">
+                  Hue Gradient Metaballs
+                </option>
               </select>
             </div>
           </div>
