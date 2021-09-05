@@ -5,8 +5,8 @@ An experiment with shader in the system of particles
 ## Filters
 
 - [ ] Metaballs (you may attempt to pronounce meatballs)
-- [ ] Voronoi grayscale
-- [ ] Voronoi colors
+- [x] Voronoi grayscale
+- [x] Voronoi colors
 
 ## Todo
 
@@ -22,6 +22,6 @@ An experiment with shader in the system of particles
 - [x] Animation Control
   - [x] Play / pause
   - [x] Reset
-- [ ] General control
-  - [ ] Number of particles
-  - [ ] Filter selection
+- [x] General control
+  - [x] Number of particles
+  - [x] Filter selection

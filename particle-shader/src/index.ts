@@ -1,6 +1,7 @@
 import { Application } from 'pixi.js';
 import { connectController, isPlaying } from './components/Controller';
 import { connectMenu } from './components/Menu';
+import { useShader } from './components/Shader';
 import { System } from './components/System';
 import './style.scss';
 
@@ -20,11 +21,13 @@ const app = new Application({
 });
 
 const system = new System();
-app.stage.addChild(system.container);
 system.setRenderer(app.renderer);
+system.showOnStage(app.stage);
 
-connectMenu(system);
+const { filters, updateUniforms } = useShader(system);
+connectMenu(system, filters);
 connectController(system);
+system.setFilter(filters.get('voronoi-gray'));
 
 window.addEventListener('resize', () => {
   // Resize the canvas
@@ -34,6 +37,7 @@ window.addEventListener('resize', () => {
 
 const animation = () => {
   if (isPlaying()) system.update();
+  updateUniforms();
 };
 
 app.ticker.add(animation);

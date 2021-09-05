@@ -39,6 +39,9 @@ export class Particle {
     this._graphics.y = this._position.y;
   }
 
+  get position() {
+    return this._position;
+  }
   get graphics() {
     return this._graphics;
   }
