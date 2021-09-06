@@ -1,36 +1,43 @@
 import { Application } from 'pixi.js';
-import { initController } from './components/Controller';
-import { julia, juliaDiv, manderbrot, manderbrotDiv } from './elements';
+import { Display } from './components/Display';
+import { julia, mandelbrot, mandelbrotDiv } from './elements';
+import { useEvents } from './event';
+import { useMandelbrotShader } from './shader';
 import './style.scss';
 
-const manderbrotRect = manderbrotDiv.getBoundingClientRect();
-const juliaRect = manderbrotDiv.getBoundingClientRect();
+const mandelbrotRect = mandelbrotDiv.getBoundingClientRect();
+const juliaRect = mandelbrotDiv.getBoundingClientRect();
 
-initController();
-
-const manderbrotApp = new Application({
-  view: manderbrot,
-  width: manderbrotRect.width - 8,
-  height: manderbrotRect.height - 8,
+export const mandelbrotApp = new Application({
+  view: mandelbrot,
+  width: mandelbrotRect.width - 8,
+  height: mandelbrotRect.height - 8,
   resolution: window.devicePixelRatio,
   autoDensity: true,
   backgroundColor: 0x333333,
+  antialias: true,
 });
 
-const juliaApp = new Application({
+export const juliaApp = new Application({
   view: julia,
   width: juliaRect.width - 8,
   height: juliaRect.height - 8,
   resolution: window.devicePixelRatio,
   autoDensity: true,
   backgroundColor: 0x111111,
+  antialias: true,
 });
 
-window.addEventListener('resize', () => {
-  // Resize the canvas
-  const { width: mw, height: mh } = manderbrotDiv.getBoundingClientRect();
-  manderbrotApp.renderer.resize(mw - 8, mh - 8);
+useEvents();
 
-  const { width: jw, height: jh } = juliaDiv.getBoundingClientRect();
-  juliaApp.renderer.resize(jw - 8, jh - 8);
-});
+const mandelbrotDisplay = new Display(mandelbrotApp);
+const mandelbrotShader = useMandelbrotShader(mandelbrotDisplay);
+
+// Key down events
+window.onkeydown = (ev) => {
+  // Handle mandelbrot
+  if (mandelbrotDiv.className === 'active') {
+    mandelbrotDisplay.handleKeyDown(ev);
+    mandelbrotShader.update();
+  }
+};

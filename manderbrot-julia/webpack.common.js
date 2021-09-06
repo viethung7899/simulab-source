@@ -11,14 +11,12 @@ module.exports = {
         use: ['html-loader'],
       },
       {
-        test: /\.(svg|png|jpg|gif)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: '[name].[contenthash].[ext]',
-            outputPaths: 'asset',
-          },
-        },
+        test: /\.(png|jpg|gif)$/,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.(vert|frag)$/,
+        type: 'asset/source',
       },
       {
         test: /\.tsx?/i,

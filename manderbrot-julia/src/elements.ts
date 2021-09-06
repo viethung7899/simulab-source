@@ -1,6 +1,8 @@
-export const manderbrotDiv =
-  document.querySelector<HTMLDivElement>('#manderbrot');
+export const canvasContainer =
+  document.querySelector<HTMLDivElement>('#canvas-container');
+export const mandelbrotDiv =
+  document.querySelector<HTMLDivElement>('#mandelbrot');
 export const juliaDiv = document.querySelector<HTMLDivElement>('#julia');
-export const manderbrot =
-  document.querySelector<HTMLCanvasElement>('#manderbrot canvas');
+export const mandelbrot =
+  document.querySelector<HTMLCanvasElement>('#mandelbrot canvas');
 export const julia = document.querySelector<HTMLCanvasElement>('#julia canvas');

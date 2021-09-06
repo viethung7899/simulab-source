@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 nav {
-  
   button,
   a {
     @apply focus:outline-none rounded-md px-2 text-xl;
@@ -18,7 +17,7 @@ nav {
       width: 6ch;
     }
   }
-  
+
   .menu {
     position: relative;
 
@@ -46,15 +45,22 @@ nav {
       }
     }
 
-    &:hover .dropdown, &:focus-within .dropdown {
-      display: block;
+    &:hover,
+    &:focus-within {
+      button {
+        @apply bg-gray-200 text-black;
+      }
+
+      & .dropdown {
+        display: block;
+      }
     }
   }
-  
+
   #reset:hover {
     @apply bg-yellow-200 text-yellow-600;
   }
-  
+
   .regular-button:hover {
     @apply bg-gray-200 text-black;
   }
@@ -65,7 +71,7 @@ nav {
   min-height: 0;
 
   div {
-    @apply box-border border-4 border-gray-500;
+    @apply box-border border-4 border-gray-500 flex-1;
     position: relative;
     min-width: 0; /* Override for dynamic canvas size upon resizing */
     min-height: 0;
@@ -74,6 +80,13 @@ nav {
       position: absolute;
       left: 0;
       @apply text-xl bg-gray-500 p-1;
+    }
+  }
+
+  .active {
+    @apply border-green-500;
+    p {
+      @apply bg-green-500;
     }
   }
 }

@@ -1,15 +1,15 @@
-# Manderbrot - Julia
+# Mandelbrot - Julia
 
-An interactive explorer of Manderbrot set and Julia set.
+An interactive explorer of Mandelbrot set and Julia set.
 
 - [x] UI
   - [x] Parallel windows
   - [x] Dynamic canvas size upon resizing
 - [ ] Shaders
-  - [ ] Manderbrot set
+  - [x] Mandelbrot set
   - [ ] Julia set
-- [ ] Cotrolling
-  - [ ] Move up, down, left, right
-  - [ ] Zoom in, zoom out
+- [x] Cotrolling
+  - [x] Move up, down, left, right
+  - [x] Zoom in, zoom out
 - [ ] Buttons
   - [ ] Reset settings

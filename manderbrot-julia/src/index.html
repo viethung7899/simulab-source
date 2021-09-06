@@ -8,12 +8,12 @@
       src="https://kit.fontawesome.com/7e04ce6a14.js"
       crossorigin="anonymous"
     ></script>
-    <title>Manderbrot - Julia explorer</title>
+    <title>Mandelbrot - Julia explorer</title>
   </head>
   <body class="text-white">
     <div class="app flex flex-col w-screen h-screen">
       <nav class="flex justify-between p-2 bg-black">
-        <div class="text-2xl font-bold">Manderbrot - Julia explorer</div>
+        <div class="text-2xl font-bold">Mandelbrot - Julia explorer</div>
         <div class="flex items-center gap-x-2">
           <!-- Buttons -->
           <div id="iteration" class="flex flex-row items-center">
@@ -31,12 +31,12 @@
           <a
             id="github"
             class="regular-button"
-            href="https://github.com/viethung7899/science-lab-source/tree/main/manderbrot-julia"
+            href="https://github.com/viethung7899/science-lab-source/tree/main/mandelbrot-julia"
             target="_blank"
             ><i class="fab fa-github"></i
           ></a>
           <div class="menu">
-            <button class="regular-button">
+            <button id="info" class="regular-button">
               <i class="fas fa-info-circle"></i>
             </button>
             <!-- Optional controller -->
@@ -54,21 +54,28 @@
 
               <div class="item">
                 <span class="keys">
-                  <kbd>+</kbd>
-                  <kbd>-</kbd>
+                  <kbd>I</kbd>
                 </span>
-                <p>Zoom in/out</p>
+                <p>Zoom in</p>
+              </div>
+
+              <div class="item">
+                <span class="keys">
+                  <kbd>O</kbd>
+                </span>
+                <p>Zoom out</p>
               </div>
             </div>
           </div>
         </div>
       </nav>
+      <!-- Canvases -->
       <div id="canvas-container" class="flex-1 flex flex-col">
-        <div id="manderbrot" class="flex-1">
-          <p>Manderbrot</p>
+        <div id="mandelbrot" class="active">
+          <p>Mandelbrot</p>
           <canvas></canvas>
         </div>
-        <div id="julia" class="flex-1">
+        <div id="julia">
           <p>Julia</p>
           <canvas></canvas>
         </div>
