@@ -24,7 +24,6 @@ export function resize() {
 // Click on canvas
 export function handleCanvasClick(
   canvasDiv: HTMLDivElement,
-  canvas: HTMLCanvasElement,
 ) {
   mandelbrotDiv.className = '';
   juliaDiv.className = '';
@@ -33,8 +32,8 @@ export function handleCanvasClick(
 
 export function useEvents() {
   // Handle clicking on canvas
-  mandelbrotDiv.onclick = () => handleCanvasClick(mandelbrotDiv, mandelbrot);
-  juliaDiv.onclick = () => handleCanvasClick(juliaDiv, julia);
+  mandelbrotDiv.onclick = () => handleCanvasClick(mandelbrotDiv);
+  juliaDiv.onclick = () => handleCanvasClick(juliaDiv);
 
   // Handle resizing
   window.onresize = resize;

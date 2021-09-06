@@ -52,6 +52,21 @@ export class Display {
     return this._zoom;
   }
 
+  getCoord(x: number, y: number, ratio: number) {
+    x -= 0.5;
+    y -= 0.5;
+    if (ratio > 1) x *= ratio;
+    else y /= ratio;
+
+    x *= (4 / this.zoom);
+    y *= (4 / this.zoom);
+
+    x += this.translate[0];
+    y += this.translate[1];
+
+    return [x, y];
+  }
+
   handleKeyDown(e: KeyboardEvent) {
     switch (e.key) {
       case KEY.ARROW_LEFT:

@@ -31,7 +31,7 @@ vec2 transform(in vec2 normalized) {
   } else {
     p.y /= ratio;
   }
-  p *= 5.;
+  p *= 4.;
 
   p /= zoom;
   p += translate;
