@@ -8,8 +8,6 @@ const juliaRect = manderbrotDiv.getBoundingClientRect();
 
 initController();
 
-console.log(manderbrotDiv.getClientRects());
-
 const manderbrotApp = new Application({
   view: manderbrot,
   width: manderbrotRect.width - 8,

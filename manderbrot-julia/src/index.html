@@ -41,14 +41,23 @@
             </button>
             <!-- Optional controller -->
             <div class="dropdown bg-white text-black p-2 rounded-lg">
-              <p class="label">Views</p>
+              <p class="font-bold">Control</p>
+              <div class="item">
+                <span class="keys">
+                  <kbd>&uparrow;</kbd>
+                  <kbd>&downarrow;</kbd>
+                  <kbd>&leftarrow;</kbd>
+                  <kbd>&rightarrow;</kbd>
+                </span>
+                <p>Move around</p>
+              </div>
 
-              <div id="view-angle">
-                <div class="slider-label">
-                  <p>Slider</p>
-                  <p>180</p>
-                </div>
-                <input type="range" min="0" max="360" step="1" value="180" />
+              <div class="item">
+                <span class="keys">
+                  <kbd>+</kbd>
+                  <kbd>-</kbd>
+                </span>
+                <p>Zoom in/out</p>
               </div>
             </div>
           </div>

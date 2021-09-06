@@ -24,25 +24,29 @@ nav {
 
     .dropdown {
       position: absolute;
+      @apply space-y-2;
       margin-top: 1rem;
       right: 0;
+      z-index: 2;
       display: none;
-      min-width: 150px;
-      
-      .label {
-        @apply font-semibold;
-      }
-      
-      .slider-label {
+      min-width: 230px;
+
+      .item {
         @apply flex justify-between items-center;
-        
+
+        .keys {
+          kbd {
+            @apply border-gray-300 border-2 rounded-md px-1;
+          }
+        }
+
         p {
           @apply text-sm;
         }
       }
     }
 
-    &:focus-within .dropdown {
+    &:hover .dropdown, &:focus-within .dropdown {
       display: block;
     }
   }
@@ -63,6 +67,8 @@ nav {
   div {
     @apply box-border border-4 border-gray-500;
     position: relative;
+    min-width: 0; /* Override for dynamic canvas size upon resizing */
+    min-height: 0;
 
     p {
       position: absolute;
