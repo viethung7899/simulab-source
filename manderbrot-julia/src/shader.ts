@@ -6,7 +6,7 @@ import mandelbrotFrag from './shaders/mandelbrot.frag';
 
 export const useMandelbrotShader = (display: Display) => {
   const { translate, zoom } = display;
-  const uniforms = { translate, zoom };
+  const uniforms = { translate, zoom, iteration: 10 };
   const filter = new Filter(base, mandelbrotFrag, uniforms);
   display.setFilter(filter);
 
@@ -14,13 +14,17 @@ export const useMandelbrotShader = (display: Display) => {
     uniforms.zoom = display.zoom;
   };
 
-  return { filter, update };
+  const updateIteration = (n: number) => {
+    uniforms.iteration = n;
+  }
+
+  return { filter, update, updateIteration };
 };
 
 export const useJuliaShader = (display: Display) => {
   const { translate, zoom } = display;
   const point = new Float32Array([0, 0]);
-  const uniforms = { translate, zoom, point };
+  const uniforms = { translate, zoom, point, iteration: 10 };
   const filter = new Filter(base, juliaFrag, uniforms);
   display.setFilter(filter);
 
@@ -33,5 +37,9 @@ export const useJuliaShader = (display: Display) => {
     point[1] = y;
   };
 
-  return { filter, update, updatePoint };
+  const updateIteration = (n: number) => {
+    uniforms.iteration = n;
+  }
+
+  return { filter, update, updatePoint, updateIteration };
 };

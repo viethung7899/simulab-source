@@ -1,6 +1,6 @@
 import { Application } from 'pixi.js';
 import { Display } from './components/Display';
-import { julia, juliaDiv, mandelbrot, mandelbrotDiv, resetButton } from './elements';
+import { iterationInput, julia, juliaDiv, mandelbrot, mandelbrotDiv, resetButton } from './elements';
 import { useEvents } from './event';
 import { useJuliaShader, useMandelbrotShader } from './shader';
 import './style.scss';
@@ -67,4 +67,11 @@ resetButton.onclick = () => {
   juliaDisplay.reset();
   mandelbrotShader.update();
   juliaShader.update();
+}
+
+// Handle interation input
+iterationInput.oninput = () => {
+  const n = +iterationInput.value;
+  mandelbrotShader.updateIteration(n);
+  juliaShader.updateIteration(n);
 }
